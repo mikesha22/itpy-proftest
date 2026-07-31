@@ -63,8 +63,6 @@ export default function TestApp() {
   const [taskStates, setTaskStates] = useState<Record<string, TaskState>>({});
   const [reflection, setReflection] = useState<ReflectionAnswers>(defaultReflection);
   const [result, setResult] = useState<ResultPayload | null>(null);
-  const [shareId, setShareId] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
   const [restored, setRestored] = useState(false);
 
   useEffect(() => {
@@ -155,7 +153,6 @@ export default function TestApp() {
       : [task.correctAnswer, ...(task.acceptedAnswers ?? [])]
           .map((answer) => normalizeAnswer(answer, task.inputMode))
           .includes(normalizeAnswer(state.answer, task.inputMode));
-
     const attemptsBefore = state.attempts;
     const penalty = Math.max(state.hintLevel, attemptsBefore > 0 ? 1 : 0);
     const score = correct ? Math.max(0, task.maxScore - penalty) : 0;
@@ -232,7 +229,7 @@ export default function TestApp() {
     reflection.calmness > 0 &&
     reflection.errorReaction > 0;
 
-  async function finishTest() {
+  function finishTest() {
     if (!reflectionComplete) return;
     const scores = calculateScores(surveyAnswers, taskStates, reflection);
     const profileId = chooseProfile(scores, reflection);
@@ -249,20 +246,6 @@ export default function TestApp() {
 
     setResult(payload);
     setStage("result");
-    setSaving(true);
-    try {
-      const response = await fetch("/api/results", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json();
-      if (data.stored && data.id) setShareId(data.id);
-    } catch {
-      // Сайт продолжает работать локально, даже если хранилище недоступно.
-    } finally {
-      setSaving(false);
-    }
   }
 
   function resetTest() {
@@ -276,11 +259,10 @@ export default function TestApp() {
     setTaskStates({});
     setReflection(defaultReflection);
     setResult(null);
-    setShareId(null);
   }
 
   if (!restored) return <main className="site-shell test-shell"><div className="loading-card">Загружаем тест…</div></main>;
-  if (stage === "result" && result) return <ResultView payload={result} shareId={shareId} />;
+  if (stage === "result" && result) return <ResultView payload={result} onRestart={resetTest} />;
 
   return (
     <main className="site-shell test-shell">
@@ -395,7 +377,6 @@ export default function TestApp() {
             {task.codeBlock && (
               <pre className="code-block"><code>{task.codeBlock}</code></pre>
             )}
-
             {task.answerType === "choice" ? (
               <div className="task-options">
                 {task.options.map((option) => (
@@ -503,8 +484,8 @@ export default function TestApp() {
             ))}
           </fieldset>
 
-          <button className="button button-primary" disabled={!reflectionComplete || saving} onClick={finishTest}>
-            {saving ? "Сохраняем…" : "Получить результат"}
+          <button className="button button-primary" disabled={!reflectionComplete} onClick={finishTest}>
+            Получить результат
           </button>
         </section>
       )}

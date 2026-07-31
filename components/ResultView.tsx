@@ -38,10 +38,10 @@ export default function ResultView({
     <main className="site-shell result-shell">
       <header className="topbar print-hide">
         <div className="brand"><span>it</span>py <small>результат</small></div>
-        <div className="result-actions">
+        <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <button className="text-button" onClick={() => window.print()}>Сохранить как PDF</button>
           {onRestart && (
-            <button className="button button-secondary restart-button" onClick={onRestart}>
+            <button className="button button-secondary" onClick={onRestart}>
               Пройти тест заново
             </button>
           )}
@@ -58,7 +58,7 @@ export default function ResultView({
         </div>
       </section>
 
-      <div className="result-layout">
+      <div className="result-layout" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
         <section className="result-main">
           <article className="result-card">
             <h2>Что означает результат</h2>
