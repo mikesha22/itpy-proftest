@@ -1,143 +1,99 @@
 .header {
   width: 100%;
-  padding-top: 16px;
+  padding-top: 12px;
 }
 
 .inner {
-  width: min(1160px, calc(100% - 34px));
+  width: min(1160px, calc(100% - 32px));
   margin: 0 auto;
-  padding-bottom: 17px;
-  display: grid;
-  grid-template-columns: 210px minmax(0, 1fr);
+  padding-bottom: 12px;
+  display: flex;
   align-items: center;
-  gap: clamp(24px, 4vw, 54px);
+  justify-content: space-between;
+  gap: clamp(14px, 4vw, 48px);
   border-bottom: 2px solid var(--green);
 }
 
-.logoLink,
-.socialBlock {
-  min-height: 84px;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  box-shadow: 0 10px 28px rgba(21, 63, 53, 0.09);
-}
-
 .logoLink {
-  width: 210px;
-  padding: 4px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-color: rgba(255, 255, 255, 0.08);
-  background: var(--green-dark);
+  flex: 0 0 auto;
+  display: block;
   line-height: 0;
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition: transform 160ms ease;
 }
 
 .logoLink:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 34px rgba(21, 63, 53, 0.18);
 }
 
 .logoLink:focus-visible {
   outline: 3px solid rgba(31, 107, 87, 0.28);
   outline-offset: 4px;
+  border-radius: 8px;
 }
 
 .logoImage {
   display: block;
-  width: 145px;
-  height: 76px;
+  width: clamp(96px, 10vw, 124px);
+  height: auto;
   object-fit: contain;
 }
 
 .socialBlock {
-  width: min(100%, 720px);
-  justify-self: end;
-  padding: 10px 18px;
+  flex: 1 1 610px;
+  min-width: 0;
+  max-width: 610px;
+  margin-left: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: rgba(255, 254, 249, 0.88);
+  justify-content: flex-end;
+  line-height: 0;
 }
 
 .socialImage {
   display: block;
   width: 100%;
-  height: 62px;
+  height: auto;
+  max-height: 76px;
   object-fit: contain;
-  object-position: center;
+  object-position: right center;
 }
 
-@media (max-width: 760px) {
-  .inner {
-    grid-template-columns: 180px minmax(0, 1fr);
-    gap: 18px;
-  }
-
-  .logoLink {
-    width: 180px;
-    min-height: 76px;
-    padding-inline: 18px;
-    border-radius: 19px;
-  }
-
-  .logoImage {
-    width: 126px;
-    height: 66px;
-  }
-
-  .socialBlock {
-    min-height: 76px;
-    padding: 9px 14px;
-    border-radius: 19px;
-  }
-
-  .socialImage {
-    height: 56px;
-  }
-}
-
-@media (max-width: 560px) {
+@media (max-width: 620px) {
   .header {
-    padding-top: 10px;
+    padding-top: 8px;
   }
 
   .inner {
     width: min(1160px, calc(100% - 20px));
-    padding-bottom: 14px;
-    grid-template-columns: 1fr;
-    justify-items: start;
-    gap: 11px;
-  }
-
-  .logoLink {
-    width: 164px;
-    min-height: 68px;
-    padding: 3px 16px;
-    border-radius: 17px;
+    padding-bottom: 9px;
+    gap: 8px;
   }
 
   .logoImage {
-    width: 116px;
-    height: 60px;
+    width: 78px;
   }
 
   .socialBlock {
-    width: 100%;
-    min-height: 68px;
-    padding: 8px 12px;
-    justify-self: stretch;
-    border-radius: 17px;
+    flex-basis: auto;
+    max-width: calc(100% - 86px);
   }
 
   .socialImage {
-    width: 100%;
-    height: auto;
-    max-height: 52px;
-    object-position: left center;
+    max-height: 54px;
+  }
+}
+
+@media (max-width: 390px) {
+  .logoImage {
+    width: 70px;
+  }
+
+  .socialBlock {
+    max-width: calc(100% - 76px);
+  }
+
+  .socialImage {
+    max-height: 48px;
   }
 }
 

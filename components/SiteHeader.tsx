@@ -12,8 +12,8 @@ export default function SiteHeader() {
             className={styles.logoImage}
             src="/branding/itpy-logo.png"
             alt="itpy"
-            width={920}
-            height={543}
+            width={720}
+            height={720}
             priority
           />
         </Link>
@@ -23,8 +23,8 @@ export default function SiteHeader() {
             className={styles.socialImage}
             src="/branding/itpy-socials.png"
             alt="YouTube, Telegram и VK — informatika_kege_itpy"
-            width={1158}
-            height={128}
+            width={1248}
+            height={194}
             priority
           />
         </div>
