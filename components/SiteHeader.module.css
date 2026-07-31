@@ -117,3 +117,15 @@
     transition: none;
   }
 }
+
+/* Старая текстовая плашка под общей шапкой больше не нужна. */
+:global(.test-shell > .topbar .brand),
+:global(.result-shell > .topbar .brand) {
+  display: none;
+}
+
+/* После удаления старого логотипа оставляем служебную кнопку справа. */
+:global(.test-shell > .topbar),
+:global(.result-shell > .topbar) {
+  justify-content: flex-end;
+}
