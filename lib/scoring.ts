@@ -24,7 +24,7 @@ function taskScore(states: Record<string, TaskState>, predicate: (taskId: string
   practicalTasks.forEach((task) => {
     if (!predicate(task.id)) return;
     earned += states[task.id]?.score ?? 0;
-    maximum += task.maxScore;
+    if (!task.bonus) maximum += task.maxScore;
   });
   return maximum === 0 ? 0 : round((earned / maximum) * 100);
 }
@@ -72,7 +72,7 @@ export function calculateScores(
     0.2 * interest + 0.25 * logic + 0.2 * attention + 0.15 * resilience + 0.2 * study,
   );
   const egeIndex = round(
-    0.25 * interest + 0.2 * logic + 0.15 * attention + 0.15 * resilience + 0.15 * study + 0.1 * comfort,
+    0.2 * interest + 0.2 * logic + 0.15 * code + 0.15 * attention + 0.1 * resilience + 0.1 * study + 0.1 * comfort,
   );
 
   return {

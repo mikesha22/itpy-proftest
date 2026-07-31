@@ -258,6 +258,49 @@ print(count)`,
     attention: true,
     code: true,
   },
+  {
+    id: "task11", title: "Кратчайший путь на графе",
+    prompt: "На схеме показаны дороги между пунктами. Число возле каждой дороги — её длина. Какова минимальная длина пути из пункта А в пункт Е?",
+    graph: { nodes: [
+      { id: "А", x: 70, y: 180 }, { id: "Б", x: 200, y: 85 }, { id: "В", x: 200, y: 275 },
+      { id: "Г", x: 355, y: 180 }, { id: "Д", x: 485, y: 85 }, { id: "Е", x: 555, y: 245 },
+    ], edges: [
+      { from: "А", to: "Б", weight: 4 }, { from: "А", to: "В", weight: 7 }, { from: "Б", to: "В", weight: 2 },
+      { from: "Б", to: "Г", weight: 5 }, { from: "В", to: "Г", weight: 1 }, { from: "Г", to: "Д", weight: 3 },
+      { from: "Г", to: "Е", weight: 7 }, { from: "Д", to: "Е", weight: 2 },
+    ] },
+    answerType: "input", inputMode: "number", placeholder: "Введите длину пути", correctAnswer: "12", maxScore: 2,
+    hints: ["Путь с меньшим количеством дорог не всегда является самым коротким.", "Проверь маршрут А → Б → В → Г → Д → Е."],
+    explanation: "Кратчайший маршрут: А → Б → В → Г → Д → Е. Его длина равна 4 + 2 + 1 + 3 + 2 = 12.",
+    logic: true, attention: true,
+  },
+  {
+    id: "task12", title: "Подбери тестовые данные",
+    prompt: "Программа должна считать количество чисел, строго больших 5, но программист написал условие x >= 5. Какой набор данных гарантированно обнаружит ошибку?",
+    codeBlock: `count = 0\nfor x in numbers:\n    if x >= 5:\n        count = count + 1\nprint(count)`,
+    answerType: "choice", options: [
+      { id: "a", label: "[1, 2, 3] — правильный ответ 0" }, { id: "b", label: "[6, 7, 8] — правильный ответ 3" },
+      { id: "c", label: "[5, 8] — правильный ответ 1" }, { id: "d", label: "[10, 12] — правильный ответ 2" },
+    ], correctOptionId: "c", maxScore: 2,
+    hints: ["Нужно выбрать данные, на которых условия x > 5 и x >= 5 дадут разные результаты.", "Проверь граничное значение 5."],
+    explanation: "Набор [5, 8] обнаружит ошибку: правильная программа посчитает только 8 и выведет 1, а ошибочная посчитает также 5 и выведет 2.",
+    logic: true, attention: true, code: true,
+  },
+  {
+    id: "task13", title: "Задача со звёздочкой: своя программа",
+    prompt: "Даны списки first и second. Напиши программу, которая подсчитывает, сколько чисел из списка first встречается также в списке second. Значения списков сайт подставит сам и проверит программу на нескольких тестах.",
+    details: ["Перебор элементов: for x in first:", "Проверка наличия: if x in second:", "Увеличение счётчика: count += 1", "Не изменяй списки first и second. Выведи только значение count."],
+    answerType: "code", starterCode: `count = 0\n\n# Напиши продолжение программы\n\n\nprint(count)`,
+    tests: [
+      { name: "Открытый тест", first: [3, 8, 5, 12, 7], second: [2, 7, 8, 10, 12], expected: "3" },
+      { name: "Тест 2", first: [1, 4, 9], second: [2, 4, 6], expected: "1", hidden: true },
+      { name: "Тест 3", first: [5, 10, 15], second: [1, 2, 3], expected: "0", hidden: true },
+      { name: "Тест 4", first: [2, 6, 8, 11], second: [2, 8, 11, 20], expected: "3", hidden: true },
+    ], maxScore: 3, bonus: true,
+    hints: ["Сначала перебери элементы first с помощью for x in first:.", "Внутри цикла проверь if x in second: и при выполнении условия увеличь count на 1."],
+    explanation: "Один из вариантов решения: count = 0; затем for x in first, внутри if x in second: count += 1; после цикла print(count). Задание бонусное и не снижает основной результат.",
+    logic: true, attention: true, code: true,
+  },
 ];
 
 export const scaleLabels = [

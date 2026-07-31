@@ -347,3 +347,41 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 4px rg
   .code-block { padding: 17px 15px; font-size: 13px; }
   .answer-input { max-width: 100%; }
 }
+
+/* Граф и Python-задача версии 0.3 */
+.graph-task {
+  margin: 24px 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: white;
+}
+.graph-task svg { display: block; width: 100%; height: auto; }
+.graph-task line { stroke: #416055; stroke-width: 4; stroke-linecap: round; }
+.graph-task circle { fill: var(--green-dark); stroke: white; stroke-width: 4; }
+.graph-task .node-label { fill: white; font: 800 19px/1 sans-serif; text-anchor: middle; }
+.graph-task .edge-label-bg { fill: white; stroke: var(--line); }
+.graph-task .edge-label { fill: var(--ink); font: 800 15px/1 sans-serif; text-anchor: middle; }
+.python-task { display: grid; gap: 16px; margin-top: 8px; }
+.python-editor {
+  width: 100%;
+  min-height: 260px;
+  resize: vertical;
+  border: 1px solid #263b35;
+  border-radius: 18px;
+  background: #14251f;
+  color: #f4f8f5;
+  padding: 20px 22px;
+  font: 600 15px/1.65 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  tab-size: 4;
+}
+.python-editor:focus { outline: 3px solid rgba(136, 179, 66, .28); }
+.test-results { display: grid; gap: 8px; }
+.test-results > div { display: grid; gap: 4px; padding: 12px 15px; border-radius: 14px; }
+.test-pass { background: var(--lime-soft); color: var(--green-dark); }
+.test-fail { background: var(--danger-bg); color: var(--danger); }
+.test-results span { font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 560px) {
+  .graph-task { padding: 5px; }
+  .python-editor { min-height: 230px; padding: 16px 14px; font-size: 13px; }
+}

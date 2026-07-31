@@ -7,9 +7,18 @@ export type SurveyQuestion = {
   text: string;
 };
 
-export type TaskOption = {
-  id: string;
-  label: string;
+export type TaskOption = { id: string; label: string };
+
+export type GraphNode = { id: string; x: number; y: number };
+export type GraphEdge = { from: string; to: string; weight: number };
+export type GraphData = { nodes: GraphNode[]; edges: GraphEdge[] };
+
+export type PythonTestCase = {
+  name: string;
+  first: number[];
+  second: number[];
+  expected: string;
+  hidden?: boolean;
 };
 
 type PracticalTaskBase = {
@@ -18,7 +27,9 @@ type PracticalTaskBase = {
   prompt: string;
   details?: string[];
   codeBlock?: string;
+  graph?: GraphData;
   maxScore: 1 | 2 | 3;
+  bonus?: boolean;
   hints?: string[];
   explanation: string;
   logic?: boolean;
@@ -40,7 +51,13 @@ export type InputPracticalTask = PracticalTaskBase & {
   placeholder?: string;
 };
 
-export type PracticalTask = ChoicePracticalTask | InputPracticalTask;
+export type CodePracticalTask = PracticalTaskBase & {
+  answerType: "code";
+  starterCode: string;
+  tests: PythonTestCase[];
+};
+
+export type PracticalTask = ChoicePracticalTask | InputPracticalTask | CodePracticalTask;
 
 export type TaskState = {
   answer?: string;

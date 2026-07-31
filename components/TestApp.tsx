@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import ResultView from "./ResultView";
+import GraphTask from "./GraphTask";
+import PythonCodeTask from "./PythonCodeTask";
 import { practicalTasks, scaleLabels, surveyQuestions } from "@/lib/questions";
 import { calculateScores, chooseProfile } from "@/lib/scoring";
 import type {
@@ -146,7 +148,7 @@ export default function TestApp() {
   function submitTask() {
     const task = practicalTasks[taskIndex];
     const state = taskStates[task.id] ?? emptyTaskState();
-    if (!state.answer?.trim()) return;
+    if (task.answerType === "code" || !state.answer?.trim()) return;
 
     const correct = task.answerType === "choice"
       ? state.answer === task.correctOptionId
@@ -175,11 +177,32 @@ export default function TestApp() {
     });
   }
 
+  function submitCodeResult(passed: boolean) {
+    const task = practicalTasks[taskIndex];
+    if (task.answerType !== "code") return;
+    const state = taskStates[task.id] ?? emptyTaskState();
+    const attempts = state.attempts + 1;
+    if (!passed) {
+      updateTaskState(task.id, { attempts, correct: false });
+      return;
+    }
+    const penalty = Math.max(state.hintLevel, state.attempts > 0 ? 1 : 0);
+    updateTaskState(task.id, {
+      attempts,
+      completed: true,
+      correct: true,
+      score: Math.max(0, task.maxScore - penalty),
+    });
+  }
+
   function revealHint() {
     const task = practicalTasks[taskIndex];
     const state = taskStates[task.id] ?? emptyTaskState();
     if (!task.hints || state.hintLevel >= task.hints.length) return;
-    updateTaskState(task.id, { hintLevel: state.hintLevel + 1, answer: "" });
+    updateTaskState(task.id, {
+      hintLevel: state.hintLevel + 1,
+      ...(task.answerType === "code" ? {} : { answer: "" }),
+    });
   }
 
   function revealExplanation() {
@@ -189,7 +212,11 @@ export default function TestApp() {
       correct: false,
       revealed: true,
       score: 0,
-      answer: task.answerType === "choice" ? task.correctOptionId : task.correctAnswer,
+      answer: task.answerType === "choice"
+        ? task.correctOptionId
+        : task.answerType === "input"
+          ? task.correctAnswer
+          : task.starterCode,
     });
   }
 
@@ -363,6 +390,8 @@ export default function TestApp() {
               </div>
             )}
 
+            {task.graph && <GraphTask graph={task.graph} />}
+
             {task.codeBlock && (
               <pre className="code-block"><code>{task.codeBlock}</code></pre>
             )}
@@ -378,12 +407,12 @@ export default function TestApp() {
                   >{option.label}</button>
                 ))}
               </div>
-            ) : (
+            ) : task.answerType === "input" ? (
               <label className="answer-field">
                 <span>Твой ответ</span>
                 <input
                   className="answer-input"
-                  type={task.inputMode === "number" ? "text" : "text"}
+                  type="text"
                   inputMode={task.inputMode === "number" ? "numeric" : "text"}
                   value={state.answer ?? ""}
                   onChange={(event) => setTaskAnswer(event.target.value)}
@@ -395,6 +424,14 @@ export default function TestApp() {
                   autoComplete="off"
                 />
               </label>
+            ) : (
+              <PythonCodeTask
+                task={task}
+                value={state.answer ?? task.starterCode}
+                disabled={state.completed}
+                onChange={setTaskAnswer}
+                onChecked={submitCodeResult}
+              />
             )}
 
             {wrong && <div className="feedback feedback-wrong"><b>Ответ пока не совпал.</b> Попробуй ещё раз или воспользуйся подсказкой.</div>}
@@ -415,7 +452,7 @@ export default function TestApp() {
             )}
 
             <div className="task-actions">
-              {!state.completed && (
+              {!state.completed && task.answerType !== "code" && (
                 <button className="button button-primary" disabled={!state.answer?.trim()} onClick={submitTask}>Проверить ответ</button>
               )}
               {!state.completed && wrong && task.hints && state.hintLevel < task.hints.length && (
