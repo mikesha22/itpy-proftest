@@ -13,7 +13,6 @@ import {
 } from "@/lib/resultDescriptions";
 import type { ResultPayload } from "@/lib/types";
 import styles from "./ResultView.module.css";
-
 function formatDate(value: string) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "Дата не указана";
@@ -29,7 +28,6 @@ function gradeLabel(grade: string) {
   if (grade === "other") return "Другой класс";
   return `${grade} класс`;
 }
-
 function safeFilePart(value: string) {
   return value
     .trim()
@@ -37,7 +35,6 @@ function safeFilePart(value: string) {
     .replace(/^_+|_+$/g, "")
     .slice(0, 40);
 }
-
 function PdfScoreCard({
   label,
   value,
@@ -60,7 +57,6 @@ function PdfScoreCard({
     </article>
   );
 }
-
 export default function ResultView({
   payload,
   onRestart,
@@ -79,7 +75,6 @@ export default function ResultView({
   const interests = payload.participant.interests.length > 0
     ? payload.participant.interests.join(", ")
     : "Пока не выбраны";
-
   function printResult() {
     const previousTitle = document.title;
     const namePart = safeFilePart(displayName);
@@ -89,12 +84,10 @@ export default function ResultView({
       document.title = previousTitle;
     }, 1200);
   }
-
   return (
     <main className="site-shell result-shell">
       <div className={styles.screenResult}>
         <header className="topbar print-hide">
-          <div className="brand"><span>it</span>py <small>результат</small></div>
           <div className={styles.screenActions}>
             <button className="text-button" onClick={printResult}>Сохранить красивый PDF</button>
             {onRestart && (
@@ -104,7 +97,6 @@ export default function ResultView({
             )}
           </div>
         </header>
-
         <section className="result-hero">
           <div className="eyebrow">{nickname ? `${nickname}, твой профиль` : "Твой профиль"}</div>
           <h1>{profile.title}</h1>
@@ -114,14 +106,12 @@ export default function ResultView({
             <div><span>Перспектива ЕГЭ</span><strong>{payload.scores.egeIndex}</strong><small>из 100</small></div>
           </div>
         </section>
-
         <div className="result-layout" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
           <section className="result-main">
             <article className="result-card">
               <h2>Что означает результат</h2>
               <p>{profile.student}</p>
             </article>
-
             <article className="recommendation-grid">
               <div className="result-card accent-card">
                 <span className="card-kicker">ОГЭ</span>
@@ -134,7 +124,6 @@ export default function ResultView({
                 <p>{egeRecommendation(payload.scores)}</p>
               </div>
             </article>
-
             <article className="result-card">
               <h2>Твои показатели</h2>
               <div className="score-list">
@@ -150,7 +139,6 @@ export default function ResultView({
                 })}
               </div>
             </article>
-
             <article className="result-card two-column-copy">
               <div>
                 <h2>Сильные стороны</h2>
@@ -169,7 +157,6 @@ export default function ResultView({
                 </ul>
               </div>
             </article>
-
             <article className="result-card next-step-card">
               <span className="card-kicker">Следующий шаг</span>
               <h2>{profile.nextStep}</h2>
@@ -179,13 +166,8 @@ export default function ResultView({
             </article>
           </section>
         </div>
-
-        <section className="result-disclaimer">
-          Результат не определяет способности или будущую профессию. Он отражает текущее прохождение,
-          интерес и учебные привычки. Итоговые пороги должны быть уточнены после пилотирования.
-        </section>
+        <footer className="footer print-hide">© itpy, 2026</footer>
       </div>
-
       <section className={styles.pdfReport} aria-hidden="true">
         <article className={styles.pdfPage}>
           <header className={styles.pdfHeader}>
@@ -196,7 +178,6 @@ export default function ResultView({
             </div>
             <div className={styles.pdfDate}>{completedDate}</div>
           </header>
-
           <div className={styles.pdfHero}>
             <div className={styles.pdfEyebrow}>Результат для {displayName}</div>
             <h1>{profile.title}</h1>
@@ -206,12 +187,10 @@ export default function ResultView({
               <span><b>Опыт:</b> {payload.participant.experience}</span>
             </div>
           </div>
-
           <section className={styles.pdfMeaning}>
             <h2>Что означает результат</h2>
             <p>{profile.student}</p>
           </section>
-
           <section className={styles.pdfExamGrid}>
             <article className={`${styles.pdfExamCard} ${styles.pdfExamAccent}`}>
               <div className={styles.pdfExamHead}>
@@ -228,7 +207,6 @@ export default function ResultView({
               <p>{egeRecommendation(payload.scores)}</p>
             </article>
           </section>
-
           <section className={styles.pdfScoreGrid}>
             {resultScoreItems.map((item) => (
               <PdfScoreCard
@@ -239,7 +217,6 @@ export default function ResultView({
               />
             ))}
           </section>
-
           <footer className={styles.pdfFooter}>
             <span>itpy · осознанный выбор информатики</span>
             <span>1 / 2</span>
@@ -251,7 +228,6 @@ export default function ResultView({
             <div className={styles.pdfBrand}><span>it</span>py</div>
             <div><strong>{displayName}</strong><span> · подробный разбор результата</span></div>
           </header>
-
           <section className={styles.pdfTwoColumn}>
             <article className={`${styles.pdfInsightCard} ${styles.pdfStrengthCard}`}>
               <span className={styles.pdfKicker}>Сильные стороны</span>
@@ -262,7 +238,6 @@ export default function ResultView({
                 </div>
               ))}
             </article>
-
             <article className={styles.pdfInsightCard}>
               <span className={styles.pdfKicker}>Что стоит развивать</span>
               {growth.map((item) => (
@@ -273,7 +248,6 @@ export default function ResultView({
               ))}
             </article>
           </section>
-
           <section className={styles.pdfCodeCard}>
             <div>
               <span className={styles.pdfKicker}>Дополнительный показатель</span>
@@ -282,7 +256,6 @@ export default function ResultView({
             </div>
             <strong>{payload.scores.code}</strong>
           </section>
-
           <section className={styles.pdfRouteCard}>
             <span className={styles.pdfKicker}>Персональный маршрут</span>
             <h2>{profile.nextStep}</h2>
@@ -293,7 +266,6 @@ export default function ResultView({
               <li><b>Вернуться к выбору.</b><span>Решение по ЕГЭ принимать после практического опыта и знакомства с программированием.</span></li>
             </ol>
           </section>
-
           <section className={styles.pdfInterests}>
             <span className={styles.pdfKicker}>Интересы внутри IT</span>
             <p>{interests}</p>
@@ -306,7 +278,6 @@ export default function ResultView({
               прохождение, интерес, учебные привычки и выполнение небольшого набора заданий.
             </p>
           </section>
-
           <footer className={styles.pdfFooter}>
             <span>Результат сформирован на сайте itpy Proftest</span>
             <span>2 / 2</span>
