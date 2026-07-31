@@ -3,6 +3,8 @@ import Link from "next/link";
 
 import styles from "./SiteHeader.module.css";
 
+const TELEGRAM_CHANNEL_URL = "https://t.me/informatika_kege_itpy";
+
 export default function SiteHeader() {
   return (
     <header className={styles.header}>
@@ -18,7 +20,13 @@ export default function SiteHeader() {
           />
         </Link>
 
-        <div className={styles.socialBlock}>
+        <a
+          className={styles.socialLink}
+          href={TELEGRAM_CHANNEL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Открыть Telegram-канал informatika_kege_itpy"
+        >
           <Image
             className={styles.socialImage}
             src="/branding/itpy-socials.png"
@@ -27,7 +35,7 @@ export default function SiteHeader() {
             height={194}
             priority
           />
-        </div>
+        </a>
       </div>
     </header>
   );

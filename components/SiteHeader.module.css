@@ -25,7 +25,8 @@
   transform: translateY(-2px);
 }
 
-.logoLink:focus-visible {
+.logoLink:focus-visible,
+.socialLink:focus-visible {
   outline: 3px solid rgba(31, 107, 87, 0.28);
   outline-offset: 4px;
   border-radius: 8px;
@@ -38,7 +39,7 @@
   object-fit: contain;
 }
 
-.socialBlock {
+.socialLink {
   flex: 1 1 610px;
   min-width: 0;
   max-width: 610px;
@@ -47,6 +48,13 @@
   align-items: center;
   justify-content: flex-end;
   line-height: 0;
+  cursor: pointer;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.socialLink:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
 .socialImage {
@@ -73,7 +81,7 @@
     width: 78px;
   }
 
-  .socialBlock {
+  .socialLink {
     flex-basis: auto;
     max-width: calc(100% - 86px);
   }
@@ -88,7 +96,7 @@
     width: 70px;
   }
 
-  .socialBlock {
+  .socialLink {
     max-width: calc(100% - 76px);
   }
 
@@ -104,7 +112,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .logoLink {
+  .logoLink,
+  .socialLink {
     transition: none;
   }
 }
