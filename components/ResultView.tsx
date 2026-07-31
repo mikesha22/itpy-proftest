@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+
 import { egeRecommendation, levelLabel, ogeRecommendation } from "@/lib/scoring";
 import { profiles } from "@/lib/profiles";
 import type { ResultPayload } from "@/lib/types";
@@ -83,7 +84,6 @@ export default function ResultView({
             <div className="score-list">
               {scoreItems.map((item) => {
                 const value = Number(payload.scores[item.key]);
-
                 return (
                   <div className="score-row" key={item.key}>
                     <div className="score-head"><span>{item.label}</span><b>{value}</b></div>
@@ -120,10 +120,7 @@ export default function ResultView({
         </section>
       </div>
 
-      <section className="result-disclaimer">
-        Результат не определяет способности или будущую профессию. Он отражает текущее прохождение,
-        интерес и учебные привычки. Итоговые пороги должны быть уточнены после пилотирования.
-      </section>
+      <footer className="footer print-hide">© itpy, 2026</footer>
     </main>
   );
 }
