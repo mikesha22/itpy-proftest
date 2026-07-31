@@ -171,12 +171,62 @@ export default function ResultView({
       <section className={styles.pdfReport} aria-hidden="true">
         <article className={styles.pdfPage}>
           <header className={styles.pdfHeader}>
-            <div className={styles.pdfBrand}><span>it</span>py</div>
-            <div className={styles.pdfHeaderText}>
-              <strong>Профориентационный тест</strong>
-              <span>Персональный результат по информатике</span>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "4mm",
+                minWidth: 0,
+                flex: "1 1 auto",
+              }}
+            >
+              {/* Фирменный квадратный логотип из public/branding */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/branding/itpy-logo.png"
+                alt="itpy"
+                width={512}
+                height={512}
+                loading="eager"
+                style={{
+                  display: "block",
+                  width: "19mm",
+                  height: "19mm",
+                  flex: "0 0 19mm",
+                  objectFit: "contain",
+                }}
+              />
+              <div className={styles.pdfHeaderText}>
+                <strong>Персональный результат</strong>
+                <span>Информатика · ОГЭ · ЕГЭ</span>
+              </div>
             </div>
-            <div className={styles.pdfDate}>{completedDate}</div>
+            <div
+              style={{
+                display: "grid",
+                justifyItems: "end",
+                gap: "1.5mm",
+                marginLeft: "auto",
+              }}
+            >
+              {/* Фирменная плашка с социальными сетями */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/branding/itpy-socials.png"
+                alt="Социальные сети itpy"
+                width={1200}
+                height={300}
+                loading="eager"
+                style={{
+                  display: "block",
+                  width: "69mm",
+                  height: "16mm",
+                  objectFit: "contain",
+                  objectPosition: "right center",
+                }}
+              />
+              <div className={styles.pdfDate}>{completedDate}</div>
+            </div>
           </header>
           <div className={styles.pdfHero}>
             <div className={styles.pdfEyebrow}>Результат для {displayName}</div>
@@ -218,15 +268,49 @@ export default function ResultView({
             ))}
           </section>
           <footer className={styles.pdfFooter}>
-            <span>itpy · осознанный выбор информатики</span>
+            <span>© itpy, 2026</span>
             <span>1 / 2</span>
           </footer>
         </article>
 
         <article className={styles.pdfPage}>
           <header className={styles.pdfSmallHeader}>
-            <div className={styles.pdfBrand}><span>it</span>py</div>
-            <div><strong>{displayName}</strong><span> · подробный разбор результата</span></div>
+            <div style={{ display: "flex", alignItems: "center", gap: "3mm", minWidth: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/branding/itpy-logo.png"
+                alt="itpy"
+                width={512}
+                height={512}
+                loading="eager"
+                style={{
+                  display: "block",
+                  width: "14mm",
+                  height: "14mm",
+                  flex: "0 0 14mm",
+                  objectFit: "contain",
+                }}
+              />
+              <div>
+                <strong>{displayName}</strong>
+                <span> · подробный разбор результата</span>
+              </div>
+            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/branding/itpy-socials.png"
+              alt="Социальные сети itpy"
+              width={1200}
+              height={300}
+              loading="eager"
+              style={{
+                display: "block",
+                width: "61mm",
+                height: "14mm",
+                objectFit: "contain",
+                objectPosition: "right center",
+              }}
+            />
           </header>
           <section className={styles.pdfTwoColumn}>
             <article className={`${styles.pdfInsightCard} ${styles.pdfStrengthCard}`}>
@@ -274,12 +358,22 @@ export default function ResultView({
           <section className={styles.pdfNotice}>
             <strong>Важно</strong>
             <p>
-              Этот отчёт не измеряет интеллект и не определяет будущую профессию. Он отражает текущее
-              прохождение, интерес, учебные привычки и выполнение небольшого набора заданий.
+              Этот отчёт не измеряет интеллект и не является экзаменационной оценкой. Он отражает
+              текущее прохождение, интерес, учебные привычки и выполнение небольшого набора заданий.
             </p>
           </section>
           <footer className={styles.pdfFooter}>
-            <span>Результат сформирован на сайте itpy Proftest</span>
+            <span>
+              Результат сформирован на сайте{" "}
+              <a
+                href="https://itpy-proftest.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+                style={{ color: "#1f6b57", fontWeight: 800, textDecoration: "none" }}
+              >
+                itpy-proftest.vercel.app
+              </a>
+            </span>
             <span>2 / 2</span>
           </footer>
         </article>
