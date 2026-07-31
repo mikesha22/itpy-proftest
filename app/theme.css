@@ -1,38 +1,38 @@
 /*
- * Спокойная тёмно-зелёная тема itpy.
- * Файл подключается ПОСЛЕ globals.css и переопределяет только оформление.
+ * Тёплая спокойная тема itpy.
+ * Подключается ПОСЛЕ globals.css и переопределяет только оформление.
  */
 
 :root {
-  --ink: #18352e;
-  --ink-soft: #5b6e67;
-  --green: #2f6857;
-  --green-dark: #173f34;
-  --lime: #a9bd78;
-  --lime-soft: #edf2df;
-  --cream: #e9eee9;
-  --paper: #fbfcf8;
-  --line: #cfd9d2;
-  --danger: #8f4d45;
-  --danger-bg: #faefeb;
-  --shadow: 0 18px 48px rgba(23, 63, 52, 0.10);
-  --radius: 25px;
+  --ink: #233d35;
+  --ink-soft: #66736d;
+  --green: #3d705e;
+  --green-dark: #244b3f;
+  --lime: #b8bf88;
+  --lime-soft: #f0f0df;
+  --cream: #efeee7;
+  --paper: #fffdf8;
+  --line: #d8d8ce;
+  --danger: #8e5148;
+  --danger-bg: #fbefea;
+  --shadow: 0 16px 42px rgba(49, 67, 59, 0.09);
+  --radius: 24px;
 
   --font-body: "Segoe UI Variable Text", "Inter", "Segoe UI", system-ui, -apple-system,
     BlinkMacSystemFont, Arial, sans-serif;
-  --font-heading: ui-rounded, "Segoe UI Variable Display", "Segoe UI", system-ui,
-    -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --font-heading: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system,
+    BlinkMacSystemFont, Arial, sans-serif;
 }
 
 body {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.26), transparent 340px),
-    radial-gradient(circle at 8% -5%, rgba(47, 104, 87, 0.12), transparent 31rem),
-    radial-gradient(circle at 102% 32%, rgba(125, 151, 112, 0.10), transparent 35rem),
+    linear-gradient(180deg, rgba(255, 253, 247, 0.58), transparent 360px),
+    radial-gradient(circle at 7% -4%, rgba(159, 172, 133, 0.16), transparent 31rem),
+    radial-gradient(circle at 102% 34%, rgba(61, 112, 94, 0.08), transparent 35rem),
     var(--cream);
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.62;
+  line-height: 1.64;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -40,7 +40,7 @@ body {
 
 :where(h1, h2, h3, .hero-card strong) {
   font-family: var(--font-heading);
-  font-weight: 760;
+  font-weight: 710;
   text-wrap: balance;
 }
 
@@ -53,84 +53,84 @@ body {
 .task-badge {
   color: var(--green-dark);
   font-size: 12px;
-  font-weight: 760;
-  letter-spacing: 0.09em;
+  font-weight: 730;
+  letter-spacing: 0.075em;
 }
 
 .hero {
-  min-height: 570px;
-  padding-top: 54px;
-  padding-bottom: 66px;
+  min-height: 545px;
+  padding-top: 46px;
+  padding-bottom: 58px;
 }
 
-.hero h1,
-.result-hero h1 {
-  font-size: clamp(46px, 6.2vw, 78px);
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-  margin-top: 16px;
-  margin-bottom: 24px;
+.hero h1 {
+  max-width: 790px;
+  font-size: clamp(40px, 5.3vw, 66px);
+  line-height: 1.07;
+  letter-spacing: -0.035em;
+  margin-top: 15px;
+  margin-bottom: 22px;
 }
 
 .hero-text {
   max-width: 690px;
   color: var(--ink-soft);
-  font-size: clamp(18px, 1.8vw, 21px);
-  line-height: 1.64;
+  font-size: clamp(17px, 1.55vw, 20px);
+  line-height: 1.68;
 }
 
 .hero-actions {
-  margin-top: 31px;
+  margin-top: 29px;
 }
 
 .button {
-  font-weight: 720;
-  letter-spacing: -0.01em;
+  font-weight: 690;
+  letter-spacing: -0.005em;
 }
 
 .button-primary {
   background: var(--green-dark);
-  box-shadow: 0 11px 26px rgba(23, 63, 52, 0.17);
+  box-shadow: 0 10px 24px rgba(36, 75, 63, 0.16);
 }
 
 .button-primary:hover:not(:disabled) {
-  background: #10382e;
-  box-shadow: 0 16px 30px rgba(23, 63, 52, 0.23);
+  background: #1d4036;
+  box-shadow: 0 14px 28px rgba(36, 75, 63, 0.21);
 }
 
 .button-secondary {
-  background: rgba(251, 252, 248, 0.96);
+  background: rgba(255, 253, 248, 0.96);
 }
 
 .text-button {
   color: var(--green-dark);
-  font-weight: 700;
+  font-weight: 680;
 }
 
 .hero-card {
-  background: linear-gradient(145deg, #1b493c, var(--green-dark));
-  box-shadow: 0 22px 52px rgba(23, 63, 52, 0.16);
-  transform: rotate(0.75deg);
+  background: linear-gradient(145deg, #315e50, var(--green-dark));
+  box-shadow: 0 20px 46px rgba(36, 75, 63, 0.14);
+  transform: rotate(0.55deg);
 }
 
 .hero-card-number {
-  color: #b6c88a;
+  color: #c2c797;
   font-family: var(--font-heading);
-  font-weight: 820;
+  font-weight: 790;
 }
 
 .hero-card strong {
-  line-height: 1.2;
-  letter-spacing: -0.025em;
+  line-height: 1.24;
+  letter-spacing: -0.018em;
 }
 
 .hero-card p {
-  color: rgba(255, 255, 255, 0.74);
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.76);
+  line-height: 1.62;
 }
 
 .mini-bars span {
-  background: #a9bd78;
+  background: #b8bf88;
 }
 
 .feature-grid article,
@@ -138,38 +138,57 @@ body {
 .question-card,
 .result-card,
 .side-card {
-  background: rgba(251, 252, 248, 0.94);
+  background: rgba(255, 253, 248, 0.95);
   border-color: var(--line);
 }
 
 .feature-grid article,
 .notice-card {
-  box-shadow: 0 12px 34px rgba(23, 63, 52, 0.045);
+  box-shadow: 0 10px 28px rgba(49, 67, 59, 0.04);
 }
 
 .feature-grid b {
   color: var(--green-dark);
 }
 
-.feature-grid h2,
-.notice-card h2,
-.result-card h2,
+.feature-grid h2 {
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: -0.018em;
+}
+
+.notice-card h2 {
+  color: var(--ink);
+  font-size: clamp(22px, 2.4vw, 27px);
+  line-height: 1.26;
+  letter-spacing: -0.022em;
+}
+
+.result-card h2 {
+  color: var(--ink);
+  font-size: 21px;
+  line-height: 1.3;
+  letter-spacing: -0.018em;
+}
+
 .side-card h3 {
   color: var(--ink);
-  line-height: 1.24;
-  letter-spacing: -0.025em;
+  font-size: 18px;
+  line-height: 1.34;
+  letter-spacing: -0.012em;
 }
 
 .feature-grid p,
 .notice-card p,
 .result-card p,
 .side-card p {
-  line-height: 1.65;
+  line-height: 1.68;
 }
 
 .progress-track,
 .score-track {
-  background: #d7dfd9;
+  background: #deded5;
 }
 
 .progress-track span,
@@ -178,44 +197,45 @@ body {
 }
 
 .question-card {
-  box-shadow: 0 20px 52px rgba(23, 63, 52, 0.085);
+  box-shadow: 0 18px 44px rgba(49, 67, 59, 0.075);
 }
 
 .question-card h1 {
-  font-size: clamp(29px, 4vw, 43px);
-  line-height: 1.16;
-  letter-spacing: -0.03em;
-  margin-top: 16px;
-  margin-bottom: 17px;
+  font-size: clamp(26px, 3.1vw, 34px);
+  line-height: 1.24;
+  letter-spacing: -0.022em;
+  margin-top: 14px;
+  margin-bottom: 15px;
 }
 
 .question-lead {
-  font-size: 17px;
-  line-height: 1.68;
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 28px;
 }
 
 .question-meta {
-  font-weight: 720;
-  letter-spacing: 0.065em;
+  font-weight: 690;
+  letter-spacing: 0.055em;
 }
 
 .field-label,
 .interest-fieldset legend,
 .work-style legend,
 .answer-field {
-  font-weight: 700;
+  font-weight: 680;
 }
 
 input,
 select {
-  background: #fdfefb;
+  background: #fffefb;
   border-color: var(--line);
 }
 
 input:focus,
 select:focus {
   border-color: var(--green);
-  box-shadow: 0 0 0 4px rgba(47, 104, 87, 0.12);
+  box-shadow: 0 0 0 4px rgba(61, 112, 94, 0.11);
 }
 
 .chip,
@@ -226,7 +246,7 @@ select:focus {
 .mode-button,
 .data-list div,
 .graph-task {
-  background: #fdfefb;
+  background: #fffefb;
 }
 
 .chip.selected,
@@ -236,25 +256,30 @@ select:focus {
 .task-option.selected,
 .radio-card:has(input:checked) {
   background: var(--lime-soft);
-  border-color: #9aad82;
+  border-color: #a9ad82;
 }
 
 .scale-button b,
 .task-option,
 .mode-button {
-  font-weight: 690;
+  font-weight: 650;
 }
 
 .scale-button span {
-  background: #e5ebe5;
+  background: #ecebe4;
   color: var(--green-dark);
-  font-weight: 760;
+  font-weight: 720;
 }
 
 .task-prompt {
-  color: #26463d;
-  font-size: clamp(18px, 1.9vw, 21px);
-  line-height: 1.68;
+  color: #345047;
+  font-size: clamp(17px, 1.45vw, 19px);
+  line-height: 1.72;
+}
+
+.reflection-question h2 {
+  font-size: 17px;
+  line-height: 1.4;
 }
 
 .feedback-correct,
@@ -263,62 +288,64 @@ select:focus {
 }
 
 .feedback-explanation {
-  background: #e9eeea;
+  background: #eeeee7;
 }
 
 .result-hero {
-  background: linear-gradient(145deg, #1c4b3e, var(--green-dark));
-  box-shadow: 0 22px 54px rgba(23, 63, 52, 0.14);
+  background: linear-gradient(145deg, #315f50, var(--green-dark));
+  box-shadow: 0 20px 48px rgba(36, 75, 63, 0.13);
 }
 
 .result-hero::after {
-  background: #b4c786;
+  background: #c0c590;
   opacity: 0.12;
 }
 
 .result-hero .eyebrow,
 .index-row strong {
-  color: #c0cf98;
+  color: #cbd0a5;
 }
 
 .result-hero h1 {
-  max-width: 850px;
-  font-size: clamp(40px, 5.7vw, 68px);
-  line-height: 1.05;
+  max-width: 840px;
+  font-size: clamp(36px, 4.7vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
 .result-hero > p {
-  line-height: 1.66;
+  font-size: 17px;
+  line-height: 1.68;
 }
 
 .accent-card {
-  background: #edf2e4;
-  border-color: #cbd7b6;
+  background: #f1f0e1;
+  border-color: #d8d6b9;
 }
 
 .next-step-card {
-  border-left-color: #a9bd78;
+  border-left-color: #b8bf88;
 }
 
 .code-block,
 .python-editor {
-  border-color: #28483f;
-  background: #142d26;
-  color: #f2f6f2;
+  border-color: #36554b;
+  background: #1c332c;
+  color: #f5f4ee;
 }
 
 .python-editor:focus {
-  outline-color: rgba(169, 189, 120, 0.32);
+  outline-color: rgba(184, 191, 136, 0.3);
 }
 
 .graph-task line {
-  stroke: #4d6a60;
+  stroke: #596e66;
 }
 
 @media (max-width: 800px) {
   .hero {
-    padding-top: 34px;
-    padding-bottom: 52px;
+    padding-top: 32px;
+    padding-bottom: 48px;
   }
 }
 
@@ -328,21 +355,30 @@ select:focus {
   }
 
   .hero h1 {
-    font-size: clamp(41px, 13vw, 49px);
-    line-height: 1.04;
+    font-size: clamp(35px, 10.5vw, 43px);
+    line-height: 1.1;
   }
 
   .hero-text {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .question-card h1 {
-    font-size: 30px;
-    line-height: 1.18;
+    font-size: 25px;
+    line-height: 1.26;
+  }
+
+  .task-prompt {
+    font-size: 17px;
   }
 
   .result-hero h1 {
-    font-size: 39px;
+    font-size: 34px;
+    line-height: 1.12;
+  }
+
+  .result-hero > p {
+    font-size: 16px;
   }
 }
 
