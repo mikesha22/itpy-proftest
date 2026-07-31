@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { egeRecommendation, levelLabel, ogeRecommendation } from "@/lib/scoring";
 import { profiles } from "@/lib/profiles";
 import type { ResultPayload } from "@/lib/types";
@@ -18,42 +18,34 @@ function strongestAndGrowth(payload: ResultPayload) {
   const ranked = scoreItems
     .map((item) => ({ ...item, value: Number(payload.scores[item.key]) }))
     .sort((a, b) => b.value - a.value);
+
   return { strengths: ranked.slice(0, 2), growth: ranked.slice(-2).reverse() };
 }
 
 export default function ResultView({
   payload,
-  shared = false,
-  shareId,
+  onRestart,
 }: {
   payload: ResultPayload;
   shared?: boolean;
-  shareId?: string | null;
+  onRestart?: () => void;
 }) {
-  const [showParent, setShowParent] = useState(shared);
-  const [copied, setCopied] = useState(false);
   const profile = profiles[payload.profileId];
   const ranked = useMemo(() => strongestAndGrowth(payload), [payload]);
   const nickname = payload.participant.nickname.trim();
-
-  const resultUrl = shareId
-    ? `${typeof window !== "undefined" ? window.location.origin : ""}/result/${shareId}`
-    : shared && typeof window !== "undefined"
-      ? window.location.href
-      : "";
-
-  async function copyLink() {
-    if (!resultUrl) return;
-    await navigator.clipboard.writeText(resultUrl);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
-  }
 
   return (
     <main className="site-shell result-shell">
       <header className="topbar print-hide">
         <div className="brand"><span>it</span>py <small>результат</small></div>
-        <button className="text-button" onClick={() => window.print()}>Сохранить как PDF</button>
+        <div className="result-actions">
+          <button className="text-button" onClick={() => window.print()}>Сохранить как PDF</button>
+          {onRestart && (
+            <button className="button button-secondary restart-button" onClick={onRestart}>
+              Пройти тест заново
+            </button>
+          )}
+        </div>
       </header>
 
       <section className="result-hero">
@@ -70,7 +62,7 @@ export default function ResultView({
         <section className="result-main">
           <article className="result-card">
             <h2>Что означает результат</h2>
-            <p>{showParent ? profile.parent : profile.student}</p>
+            <p>{profile.student}</p>
           </article>
 
           <article className="recommendation-grid">
@@ -91,6 +83,7 @@ export default function ResultView({
             <div className="score-list">
               {scoreItems.map((item) => {
                 const value = Number(payload.scores[item.key]);
+
                 return (
                   <div className="score-row" key={item.key}>
                     <div className="score-head"><span>{item.label}</span><b>{value}</b></div>
@@ -125,34 +118,6 @@ export default function ResultView({
             )}
           </article>
         </section>
-
-        <aside className="result-side print-hide">
-          <div className="side-card">
-            <h3>Версия заключения</h3>
-            <button
-              className={`mode-button ${!showParent ? "active" : ""}`}
-              onClick={() => setShowParent(false)}
-            >Для ученика</button>
-            <button
-              className={`mode-button ${showParent ? "active" : ""}`}
-              onClick={() => setShowParent(true)}
-            >Для родителя</button>
-          </div>
-
-          <div className="side-card">
-            <h3>Поделиться</h3>
-            {resultUrl ? (
-              <>
-                <p>Ссылка открывает только итоговое заключение.</p>
-                <button className="button button-secondary full" onClick={copyLink}>
-                  {copied ? "Ссылка скопирована" : "Скопировать ссылку"}
-                </button>
-              </>
-            ) : (
-              <p>Подключите Supabase, чтобы создавать постоянные ссылки для родителей.</p>
-            )}
-          </div>
-        </aside>
       </div>
 
       <section className="result-disclaimer">

@@ -1,0 +1,200 @@
+--- a/components/ResultView.tsx
++++ b/components/ResultView.tsx
+@@ -1,9 +1,10 @@
+ "use client";
+ 
+-import { useMemo, useState } from "react";
++import { useMemo } from "react";
+ import { egeRecommendation, levelLabel, ogeRecommendation } from "@/lib/scoring";
+ import { profiles } from "@/lib/profiles";
+ import type { ResultPayload } from "@/lib/types";
++
+ const scoreItems: Array<{ key: keyof ResultPayload["scores"]; label: string }> = [
+   { key: "interest", label: "Интерес к информатике" },
+   { key: "logic", label: "Логика и алгоритмы" },
+@@ -12,44 +13,41 @@
+   { key: "study", label: "Учебная готовность" },
+   { key: "comfort", label: "Комфорт во время практики" },
+ ];
++
+ function strongestAndGrowth(payload: ResultPayload) {
+   const ranked = scoreItems
+     .map((item) => ({ ...item, value: Number(payload.scores[item.key]) }))
+     .sort((a, b) => b.value - a.value);
++
+   return { strengths: ranked.slice(0, 2), growth: ranked.slice(-2).reverse() };
+ }
++
+ export default function ResultView({
+   payload,
+-  shared = false,
+-  shareId,
++  onRestart,
+ }: {
+   payload: ResultPayload;
+   shared?: boolean;
+-  shareId?: string | null;
++  onRestart?: () => void;
+ }) {
+-  const [showParent, setShowParent] = useState(shared);
+-  const [copied, setCopied] = useState(false);
+   const profile = profiles[payload.profileId];
+   const ranked = useMemo(() => strongestAndGrowth(payload), [payload]);
+   const nickname = payload.participant.nickname.trim();
+-  const resultUrl = shareId
+-    ? `${typeof window !== "undefined" ? window.location.origin : ""}/result/${shareId}`
+-    : shared && typeof window !== "undefined"
+-      ? window.location.href
+-      : "";
+-
+-  async function copyLink() {
+-    if (!resultUrl) return;
+-    await navigator.clipboard.writeText(resultUrl);
+-    setCopied(true);
+-    window.setTimeout(() => setCopied(false), 1800);
+-  }
++
+   return (
+     <main className="site-shell result-shell">
+       <header className="topbar print-hide">
+         <div className="brand"><span>it</span>py <small>результат</small></div>
+-        <button className="text-button" onClick={() => window.print()}>Сохранить как PDF</button>
++        <div className="result-actions">
++          <button className="text-button" onClick={() => window.print()}>Сохранить как PDF</button>
++          {onRestart && (
++            <button className="button button-secondary restart-button" onClick={onRestart}>
++              Пройти тест заново
++            </button>
++          )}
++        </div>
+       </header>
++
+       <section className="result-hero">
+         <div className="eyebrow">{nickname ? `${nickname}, твой профиль` : "Твой профиль"}</div>
+         <h1>{profile.title}</h1>
+@@ -59,12 +57,14 @@
+           <div><span>Перспектива ЕГЭ</span><strong>{payload.scores.egeIndex}</strong><small>из 100</small></div>
+         </div>
+       </section>
++
+       <div className="result-layout">
+         <section className="result-main">
+           <article className="result-card">
+             <h2>Что означает результат</h2>
+-            <p>{showParent ? profile.parent : profile.student}</p>
++            <p>{profile.student}</p>
+           </article>
++
+           <article className="recommendation-grid">
+             <div className="result-card accent-card">
+               <span className="card-kicker">ОГЭ</span>
+@@ -77,11 +77,13 @@
+               <p>{egeRecommendation(payload.scores)}</p>
+             </div>
+           </article>
++
+           <article className="result-card">
+             <h2>Твои показатели</h2>
+             <div className="score-list">
+               {scoreItems.map((item) => {
+                 const value = Number(payload.scores[item.key]);
++
+                 return (
+                   <div className="score-row" key={item.key}>
+                     <div className="score-head"><span>{item.label}</span><b>{value}</b></div>
+@@ -92,6 +94,7 @@
+               })}
+             </div>
+           </article>
++
+           <article className="result-card two-column-copy">
+             <div>
+               <h2>Сильные стороны</h2>
+@@ -106,6 +109,7 @@
+               </ul>
+             </div>
+           </article>
++
+           <article className="result-card next-step-card">
+             <span className="card-kicker">Следующий шаг</span>
+             <h2>{profile.nextStep}</h2>
+@@ -114,33 +118,8 @@
+             )}
+           </article>
+         </section>
+-        <aside className="result-side print-hide">
+-          <div className="side-card">
+-            <h3>Версия заключения</h3>
+-            <button
+-              className={`mode-button ${!showParent ? "active" : ""}`}
+-              onClick={() => setShowParent(false)}
+-            >Для ученика</button>
+-            <button
+-              className={`mode-button ${showParent ? "active" : ""}`}
+-              onClick={() => setShowParent(true)}
+-            >Для родителя</button>
+-          </div>
+-          <div className="side-card">
+-            <h3>Поделиться</h3>
+-            {resultUrl ? (
+-              <>
+-                <p>Ссылка открывает только итоговое заключение.</p>
+-                <button className="button button-secondary full" onClick={copyLink}>
+-                  {copied ? "Ссылка скопирована" : "Скопировать ссылку"}
+-                </button>
+-              </>
+-            ) : (
+-              <p>Подключите Supabase, чтобы создавать постоянные ссылки для родителей.</p>
+-            )}
+-          </div>
+-        </aside>
+       </div>
++
+       <section className="result-disclaimer">
+         Результат не определяет способности или будущую профессию. Он отражает текущее прохождение,
+         интерес и учебные привычки. Итоговые пороги должны быть уточнены после пилотирования.
+--- a/components/TestApp.tsx
++++ b/components/TestApp.tsx
+@@ -259,7 +259,7 @@
+     setShareId(null);
+   }
+   if (!restored) return <main className="site-shell test-shell"><div className="loading-card">Загружаем тест…</div></main>;
+-  if (stage === "result" && result) return <ResultView payload={result} shareId={shareId} />;
++  if (stage === "result" && result) return <ResultView payload={result} onRestart={resetTest} />;
+ 
+   return (
+     <main className="site-shell test-shell">
+--- a/app/globals.css
++++ b/app/globals.css
+@@ -234,7 +234,10 @@
+ .index-row span { color: rgba(255,255,255,.65); font-size: 13px; }
+ .index-row strong { grid-row: span 2; font-size: 38px; line-height: 1; color: var(--lime); }
+ .index-row small { color: rgba(255,255,255,.45); }
+-.result-layout { display: grid; grid-template-columns: minmax(0, 1fr) 275px; gap: 22px; align-items: start; }
++.result-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; align-items: start; }
++.result-actions { display: flex; align-items: center; gap: 14px; }
++.restart-button { min-height: 44px; padding: 10px 18px; }
+ .result-main { display: grid; gap: 18px; }
+ .result-card, .side-card {
+   background: var(--paper);
+@@ -270,6 +273,9 @@
+ @media (max-width: 560px) {
+   .site-shell { width: min(100% - 20px, 1160px); }
+   .topbar { min-height: 68px; }
++  .result-actions { gap: 9px; }
++  .result-actions .text-button { font-size: 13px; }
++  .restart-button { min-height: 42px; padding: 9px 13px; }
+   .brand small, .topbar-note { display: none; }
+   .hero h1 { font-size: 48px; }
+   .question-card { padding: 27px 19px; border-radius: 25px; }
+--- a/README.md
++++ b/README.md
+@@ -11,7 +11,7 @@
+ - автоматический расчёт 6 основных показателей;
+ - отдельные индексы ОГЭ и ЕГЭ;
+ - автоматический выбор одного из 7 итоговых профилей;
+-- версия заключения для ученика и родителя;
++- итоговое заключение только для участника теста;
+ - печать / сохранение результата в PDF;
+ - сохранение прогресса в `localStorage`;
+ - необязательное сохранение результатов в Supabase и постоянные ссылки.
