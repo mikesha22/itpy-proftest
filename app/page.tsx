@@ -1,12 +1,8 @@
 import Link from "next/link";
 
-import SiteHeader from "@/components/SiteHeader";
-
 export default function HomePage() {
   return (
     <main className="site-shell landing">
-      <SiteHeader />
-
       <section className="hero">
         <div className="hero-copy">
           <div className="eyebrow">Не школьная контрольная</div>
