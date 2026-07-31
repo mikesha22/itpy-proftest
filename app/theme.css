@@ -1,0 +1,353 @@
+/*
+ * Спокойная тёмно-зелёная тема itpy.
+ * Файл подключается ПОСЛЕ globals.css и переопределяет только оформление.
+ */
+
+:root {
+  --ink: #18352e;
+  --ink-soft: #5b6e67;
+  --green: #2f6857;
+  --green-dark: #173f34;
+  --lime: #a9bd78;
+  --lime-soft: #edf2df;
+  --cream: #e9eee9;
+  --paper: #fbfcf8;
+  --line: #cfd9d2;
+  --danger: #8f4d45;
+  --danger-bg: #faefeb;
+  --shadow: 0 18px 48px rgba(23, 63, 52, 0.10);
+  --radius: 25px;
+
+  --font-body: "Segoe UI Variable Text", "Inter", "Segoe UI", system-ui, -apple-system,
+    BlinkMacSystemFont, Arial, sans-serif;
+  --font-heading: ui-rounded, "Segoe UI Variable Display", "Segoe UI", system-ui,
+    -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+body {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26), transparent 340px),
+    radial-gradient(circle at 8% -5%, rgba(47, 104, 87, 0.12), transparent 31rem),
+    radial-gradient(circle at 102% 32%, rgba(125, 151, 112, 0.10), transparent 35rem),
+    var(--cream);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.62;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:where(h1, h2, h3, .hero-card strong) {
+  font-family: var(--font-heading);
+  font-weight: 760;
+  text-wrap: balance;
+}
+
+:where(p, li, .question-lead, .task-prompt) {
+  text-wrap: pretty;
+}
+
+.eyebrow,
+.card-kicker,
+.task-badge {
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 760;
+  letter-spacing: 0.09em;
+}
+
+.hero {
+  min-height: 570px;
+  padding-top: 54px;
+  padding-bottom: 66px;
+}
+
+.hero h1,
+.result-hero h1 {
+  font-size: clamp(46px, 6.2vw, 78px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.hero-text {
+  max-width: 690px;
+  color: var(--ink-soft);
+  font-size: clamp(18px, 1.8vw, 21px);
+  line-height: 1.64;
+}
+
+.hero-actions {
+  margin-top: 31px;
+}
+
+.button {
+  font-weight: 720;
+  letter-spacing: -0.01em;
+}
+
+.button-primary {
+  background: var(--green-dark);
+  box-shadow: 0 11px 26px rgba(23, 63, 52, 0.17);
+}
+
+.button-primary:hover:not(:disabled) {
+  background: #10382e;
+  box-shadow: 0 16px 30px rgba(23, 63, 52, 0.23);
+}
+
+.button-secondary {
+  background: rgba(251, 252, 248, 0.96);
+}
+
+.text-button {
+  color: var(--green-dark);
+  font-weight: 700;
+}
+
+.hero-card {
+  background: linear-gradient(145deg, #1b493c, var(--green-dark));
+  box-shadow: 0 22px 52px rgba(23, 63, 52, 0.16);
+  transform: rotate(0.75deg);
+}
+
+.hero-card-number {
+  color: #b6c88a;
+  font-family: var(--font-heading);
+  font-weight: 820;
+}
+
+.hero-card strong {
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.hero-card p {
+  color: rgba(255, 255, 255, 0.74);
+  line-height: 1.6;
+}
+
+.mini-bars span {
+  background: #a9bd78;
+}
+
+.feature-grid article,
+.notice-card,
+.question-card,
+.result-card,
+.side-card {
+  background: rgba(251, 252, 248, 0.94);
+  border-color: var(--line);
+}
+
+.feature-grid article,
+.notice-card {
+  box-shadow: 0 12px 34px rgba(23, 63, 52, 0.045);
+}
+
+.feature-grid b {
+  color: var(--green-dark);
+}
+
+.feature-grid h2,
+.notice-card h2,
+.result-card h2,
+.side-card h3 {
+  color: var(--ink);
+  line-height: 1.24;
+  letter-spacing: -0.025em;
+}
+
+.feature-grid p,
+.notice-card p,
+.result-card p,
+.side-card p {
+  line-height: 1.65;
+}
+
+.progress-track,
+.score-track {
+  background: #d7dfd9;
+}
+
+.progress-track span,
+.score-track span {
+  background: var(--green);
+}
+
+.question-card {
+  box-shadow: 0 20px 52px rgba(23, 63, 52, 0.085);
+}
+
+.question-card h1 {
+  font-size: clamp(29px, 4vw, 43px);
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+  margin-top: 16px;
+  margin-bottom: 17px;
+}
+
+.question-lead {
+  font-size: 17px;
+  line-height: 1.68;
+}
+
+.question-meta {
+  font-weight: 720;
+  letter-spacing: 0.065em;
+}
+
+.field-label,
+.interest-fieldset legend,
+.work-style legend,
+.answer-field {
+  font-weight: 700;
+}
+
+input,
+select {
+  background: #fdfefb;
+  border-color: var(--line);
+}
+
+input:focus,
+select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px rgba(47, 104, 87, 0.12);
+}
+
+.chip,
+.scale-button,
+.task-option,
+.radio-card,
+.reflection-numbers button,
+.mode-button,
+.data-list div,
+.graph-task {
+  background: #fdfefb;
+}
+
+.chip.selected,
+.scale-button:hover,
+.scale-button.selected,
+.task-option:hover:not(:disabled),
+.task-option.selected,
+.radio-card:has(input:checked) {
+  background: var(--lime-soft);
+  border-color: #9aad82;
+}
+
+.scale-button b,
+.task-option,
+.mode-button {
+  font-weight: 690;
+}
+
+.scale-button span {
+  background: #e5ebe5;
+  color: var(--green-dark);
+  font-weight: 760;
+}
+
+.task-prompt {
+  color: #26463d;
+  font-size: clamp(18px, 1.9vw, 21px);
+  line-height: 1.68;
+}
+
+.feedback-correct,
+.test-pass {
+  background: var(--lime-soft);
+}
+
+.feedback-explanation {
+  background: #e9eeea;
+}
+
+.result-hero {
+  background: linear-gradient(145deg, #1c4b3e, var(--green-dark));
+  box-shadow: 0 22px 54px rgba(23, 63, 52, 0.14);
+}
+
+.result-hero::after {
+  background: #b4c786;
+  opacity: 0.12;
+}
+
+.result-hero .eyebrow,
+.index-row strong {
+  color: #c0cf98;
+}
+
+.result-hero h1 {
+  max-width: 850px;
+  font-size: clamp(40px, 5.7vw, 68px);
+  line-height: 1.05;
+}
+
+.result-hero > p {
+  line-height: 1.66;
+}
+
+.accent-card {
+  background: #edf2e4;
+  border-color: #cbd7b6;
+}
+
+.next-step-card {
+  border-left-color: #a9bd78;
+}
+
+.code-block,
+.python-editor {
+  border-color: #28483f;
+  background: #142d26;
+  color: #f2f6f2;
+}
+
+.python-editor:focus {
+  outline-color: rgba(169, 189, 120, 0.32);
+}
+
+.graph-task line {
+  stroke: #4d6a60;
+}
+
+@media (max-width: 800px) {
+  .hero {
+    padding-top: 34px;
+    padding-bottom: 52px;
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    font-size: 15.5px;
+  }
+
+  .hero h1 {
+    font-size: clamp(41px, 13vw, 49px);
+    line-height: 1.04;
+  }
+
+  .hero-text {
+    font-size: 18px;
+  }
+
+  .question-card h1 {
+    font-size: 30px;
+    line-height: 1.18;
+  }
+
+  .result-hero h1 {
+    font-size: 39px;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+}

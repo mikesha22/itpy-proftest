@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
 
 import "./globals.css";
+import "./theme.css";
 
 export const metadata: Metadata = {
   title: "Стоит ли тебе сдавать информатику? — itpy",
