@@ -368,7 +368,7 @@ export default function TestApp() {
 
             {task.details && (task.id === "task13" ? (
               <details className="task-details">
-                <summary>Подсказки к оформлению программы</summary>
+                <summary>Подсказки</summary>
                 <div className="data-list">
                   {task.details.map((detail) => <div key={detail}>{detail}</div>)}
                 </div>
