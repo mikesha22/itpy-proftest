@@ -439,7 +439,7 @@ export default function TestApp() {
               {!state.completed && wrong && task.hints && state.hintLevel < task.hints.length && (
                 <button className="button button-secondary" onClick={revealHint}>Открыть подсказку</button>
               )}
-              {!state.completed && wrong && (
+              {!state.completed && (wrong || task.id === "task13") && (
                 <button className="text-button" onClick={revealExplanation}>Показать полный разбор</button>
               )}
               {state.completed && (
