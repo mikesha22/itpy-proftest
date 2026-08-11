@@ -196,6 +196,10 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 4px rg
 .data-list { display: grid; gap: 0; margin: 22px 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
 .data-list div { padding: 12px 16px; background: white; border-bottom: 1px solid var(--line); }
 .data-list div:last-child { border: 0; }
+.task-details { margin: 22px 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: white; }
+.task-details summary { padding: 14px 16px; cursor: pointer; color: var(--green-dark); font-weight: 750; }
+.task-details summary:hover { background: var(--lime-soft); }
+.task-details .data-list { margin: 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; }
 .task-options { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 28px; }
 .task-option {
   min-height: 62px;

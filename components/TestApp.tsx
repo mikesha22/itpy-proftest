@@ -366,11 +366,18 @@ export default function TestApp() {
             <h1>{task.title}</h1>
             <p className="task-prompt">{task.prompt}</p>
 
-            {task.details && (
+            {task.details && (task.id === "task13" ? (
+              <details className="task-details">
+                <summary>Подсказки к оформлению программы</summary>
+                <div className="data-list">
+                  {task.details.map((detail) => <div key={detail}>{detail}</div>)}
+                </div>
+              </details>
+            ) : (
               <div className="data-list">
                 {task.details.map((detail) => <div key={detail}>{detail}</div>)}
               </div>
-            )}
+            ))}
 
             {task.graph && <GraphTask graph={task.graph} />}
 
