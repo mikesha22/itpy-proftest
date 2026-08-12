@@ -32,6 +32,7 @@ type PracticalTaskBase = {
   bonus?: boolean;
   hints?: string[];
   explanation: string;
+  solutionCode?: string;
   logic?: boolean;
   attention?: boolean;
   code?: boolean;

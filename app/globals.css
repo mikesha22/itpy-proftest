@@ -219,6 +219,7 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 4px rg
 .feedback-hint { background: #eef5ff; color: #34587c; }
 .feedback-correct { background: var(--lime-soft); color: var(--green-dark); }
 .feedback-explanation { background: #edf1ee; }
+.feedback .explanation-code { margin: 4px 0 2px; }
 
 .reflection-question { padding: 25px 0; border-top: 1px solid var(--line); }
 .reflection-question h2 { font-size: 18px; margin: 0 0 15px; }

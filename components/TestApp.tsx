@@ -204,6 +204,7 @@ export default function TestApp() {
 
   function revealExplanation() {
     const task = practicalTasks[taskIndex];
+    const state = taskStates[task.id] ?? emptyTaskState();
     updateTaskState(task.id, {
       completed: true,
       correct: false,
@@ -213,7 +214,7 @@ export default function TestApp() {
         ? task.correctOptionId
         : task.answerType === "input"
           ? task.correctAnswer
-          : task.starterCode,
+          : state.answer ?? task.starterCode,
     });
   }
 
@@ -436,6 +437,12 @@ export default function TestApp() {
               <div className={`feedback ${state.correct ? "feedback-correct" : "feedback-explanation"}`}>
                 <b>{state.correct ? "Верно." : "Разбор"}</b>
                 {task.explanation}
+                {state.revealed && task.solutionCode && (
+                  <>
+                    <span>Один из вариантов решения:</span>
+                    <pre className="code-block explanation-code"><code>{task.solutionCode}</code></pre>
+                  </>
+                )}
                 <small>Баллы за задание: {state.score} из {task.maxScore}</small>
               </div>
             )}
