@@ -7,7 +7,7 @@ import "./theme.css";
 
 export const metadata: Metadata = {
   title: "Проверь свою готовность к ОГЭ и ЕГЭ по информатике — itpy",
-  description: "Диагностический мини-тест для учеников 8–9 классов.",
+  description: "Диагностический мини-тест для учеников 8–11 классов.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

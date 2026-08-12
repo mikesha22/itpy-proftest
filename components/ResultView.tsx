@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { egeRecommendation, levelLabel, ogeRecommendation } from "@/lib/scoring";
+import { isEgeOnlyGrade } from "@/lib/grades";
 import { profiles } from "@/lib/profiles";
 import {
   codeDescription,
@@ -66,6 +67,9 @@ export default function ResultView({
   onRestart?: () => void;
 }) {
   const profile = profiles[payload.profileId];
+  const egeOnly = isEgeOnlyGrade(payload.participant.grade);
+  const nextStep = egeOnly ? profile.egeNextStep ?? profile.nextStep : profile.nextStep;
+  const egeCopy = egeRecommendation(payload.scores, payload.participant.grade);
   const ranked = useMemo(() => rankedScores(payload.scores), [payload.scores]);
   const strengths = ranked.slice(0, 2);
   const growth = ranked.slice(-2).reverse();
@@ -102,8 +106,10 @@ export default function ResultView({
           <h1>{profile.title}</h1>
           <p>{profile.lead}</p>
           <div className="index-row">
-            <div><span>Индекс ОГЭ</span><strong>{payload.scores.ogeIndex}</strong><small>из 100</small></div>
-            <div><span>Перспектива ЕГЭ</span><strong>{payload.scores.egeIndex}</strong><small>из 100</small></div>
+            {!egeOnly && (
+              <div><span>Индекс ОГЭ</span><strong>{payload.scores.ogeIndex}</strong><small>из 100</small></div>
+            )}
+            <div><span>{egeOnly ? "Индекс ЕГЭ" : "Перспектива ЕГЭ"}</span><strong>{payload.scores.egeIndex}</strong><small>из 100</small></div>
           </div>
         </section>
         <div className="result-layout" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
@@ -112,16 +118,21 @@ export default function ResultView({
               <h2>Что означает результат</h2>
               <p>{profile.student}</p>
             </article>
-            <article className="recommendation-grid">
-              <div className="result-card accent-card">
-                <span className="card-kicker">ОГЭ</span>
-                <h2>Рекомендация</h2>
-                <p>{ogeRecommendation(payload.scores)}</p>
-              </div>
-              <div className="result-card">
+            <article
+              className="recommendation-grid"
+              style={egeOnly ? { gridTemplateColumns: "minmax(0, 1fr)" } : undefined}
+            >
+              {!egeOnly && (
+                <div className="result-card accent-card">
+                  <span className="card-kicker">ОГЭ</span>
+                  <h2>Рекомендация</h2>
+                  <p>{ogeRecommendation(payload.scores)}</p>
+                </div>
+              )}
+              <div className={`result-card ${egeOnly ? "accent-card" : ""}`}>
                 <span className="card-kicker">ЕГЭ</span>
-                <h2>Перспектива</h2>
-                <p>{egeRecommendation(payload.scores)}</p>
+                <h2>{egeOnly ? "Рекомендация" : "Перспектива"}</h2>
+                <p>{egeCopy}</p>
               </div>
             </article>
             <article className="result-card">
@@ -159,7 +170,7 @@ export default function ResultView({
             </article>
             <article className="result-card next-step-card">
               <span className="card-kicker">Следующий шаг</span>
-              <h2>{profile.nextStep}</h2>
+              <h2>{nextStep}</h2>
               {payload.participant.interests.length > 0 && (
                 <p>Тебя особенно заинтересовали: {payload.participant.interests.join(", ")}.</p>
               )}
@@ -198,7 +209,7 @@ export default function ResultView({
               />
               <div className={styles.pdfHeaderText}>
                 <strong>Персональный результат</strong>
-                <span>Информатика · ОГЭ · ЕГЭ</span>
+                <span>{egeOnly ? "Информатика · ЕГЭ" : "Информатика · ОГЭ · ЕГЭ"}</span>
               </div>
             </div>
             <div
@@ -241,20 +252,25 @@ export default function ResultView({
             <h2>Что означает результат</h2>
             <p>{profile.student}</p>
           </section>
-          <section className={styles.pdfExamGrid}>
-            <article className={`${styles.pdfExamCard} ${styles.pdfExamAccent}`}>
+          <section
+            className={styles.pdfExamGrid}
+            style={egeOnly ? { gridTemplateColumns: "1fr" } : undefined}
+          >
+            {!egeOnly && (
+              <article className={`${styles.pdfExamCard} ${styles.pdfExamAccent}`}>
+                <div className={styles.pdfExamHead}>
+                  <div><span>ОГЭ</span><h2>Рекомендация</h2></div>
+                  <strong>{payload.scores.ogeIndex}</strong>
+                </div>
+                <p>{ogeRecommendation(payload.scores)}</p>
+              </article>
+            )}
+            <article className={`${styles.pdfExamCard} ${egeOnly ? styles.pdfExamAccent : ""}`}>
               <div className={styles.pdfExamHead}>
-                <div><span>ОГЭ</span><h2>Рекомендация</h2></div>
-                <strong>{payload.scores.ogeIndex}</strong>
-              </div>
-              <p>{ogeRecommendation(payload.scores)}</p>
-            </article>
-            <article className={styles.pdfExamCard}>
-              <div className={styles.pdfExamHead}>
-                <div><span>ЕГЭ</span><h2>Перспектива</h2></div>
+                <div><span>ЕГЭ</span><h2>{egeOnly ? "Рекомендация" : "Перспектива"}</h2></div>
                 <strong>{payload.scores.egeIndex}</strong>
               </div>
-              <p>{egeRecommendation(payload.scores)}</p>
+              <p>{egeCopy}</p>
             </article>
           </section>
           <section className={styles.pdfScoreGrid}>
@@ -342,9 +358,9 @@ export default function ResultView({
           </section>
           <section className={styles.pdfRouteCard}>
             <span className={styles.pdfKicker}>Персональный маршрут</span>
-            <h2>{profile.nextStep}</h2>
+            <h2>{nextStep}</h2>
             <ol>
-              <li><b>Попробовать практику.</b><span>Пройти небольшой вводный блок по Python или решить несколько базовых задач ОГЭ.</span></li>
+              <li><b>Попробовать практику.</b><span>Пройти небольшой вводный блок по Python или решить несколько базовых задач {egeOnly ? "ЕГЭ" : "ОГЭ"}.</span></li>
               <li><b>Сделать что-то своё.</b><span>Мини-игра, простая программа или небольшой сайт лучше показывают реальный интерес, чем один тест.</span></li>
               <li><b>Проверить учебный ритм.</b><span>Выделить две короткие практики в неделю и оценить, сохраняется ли желание продолжать.</span></li>
               <li><b>Вернуться к выбору.</b><span>Решение по ЕГЭ принимать после практического опыта и знакомства с программированием.</span></li>

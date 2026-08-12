@@ -232,7 +232,7 @@ export default function TestApp() {
   function finishTest() {
     if (!reflectionComplete) return;
     const scores = calculateScores(surveyAnswers, taskStates, reflection);
-    const profileId = chooseProfile(scores, reflection);
+    const profileId = chooseProfile(scores, reflection, participant.grade);
     const payload: ResultPayload = {
       version: "0.2",
       completedAt: new Date().toISOString(),
@@ -297,6 +297,7 @@ export default function TestApp() {
                 <option value="8">8 класс</option>
                 <option value="9">9 класс</option>
                 <option value="10">10 класс</option>
+                <option value="11">11 класс</option>
                 <option value="other">Другой</option>
               </select>
             </label>

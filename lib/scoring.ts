@@ -1,4 +1,5 @@
 import { practicalTasks, surveyQuestions } from "./questions";
+import { isEgeOnlyGrade } from "./grades";
 import type { ProfileId, ReflectionAnswers, Scores, TaskState } from "./types";
 
 const round = (value: number) => Math.round(Math.max(0, Math.min(100, value)));
@@ -92,15 +93,16 @@ export function calculateScores(
   };
 }
 
-export function chooseProfile(scores: Scores, reflection: ReflectionAnswers): ProfileId {
-  const { interest, logic, resilience, study, ogeIndex } = scores;
+export function chooseProfile(scores: Scores, reflection: ReflectionAnswers, grade: string): ProfileId {
+  const { interest, logic, resilience, study } = scores;
+  const examIndex = isEgeOnlyGrade(grade) ? scores.egeIndex : scores.ogeIndex;
 
   if (reflection.workStyle === "guess") return "insufficient";
   if (logic >= 65 && interest < 45) return "skills_low_interest";
   if (interest >= 65 && resilience < 45) return "fear_of_errors";
   if (interest >= 70 && study >= 60 && logic < 60) return "potential";
-  if (ogeIndex >= 70 && interest >= 55 && study >= 50) return "suitable";
-  if (ogeIndex >= 40 && study >= 45) return "systematic";
+  if (examIndex >= 70 && interest >= 55 && study >= 50) return "suitable";
+  if (examIndex >= 40 && study >= 45) return "systematic";
   return "compare";
 }
 
@@ -124,7 +126,20 @@ export function ogeRecommendation(scores: Scores) {
   return "Сейчас стоит сравнить информатику с другими предметами и получить дополнительный практический опыт.";
 }
 
-export function egeRecommendation(scores: Scores) {
+export function egeRecommendation(scores: Scores, grade?: string) {
+  if (grade && isEgeOnlyGrade(grade)) {
+    if (scores.egeIndex >= 70 && scores.interest >= 60 && scores.logic >= 55) {
+      return "ЕГЭ по информатике выглядит перспективным выбором. Следующий шаг — познакомиться с форматом экзамена и углубить навыки программирования.";
+    }
+    if (scores.egeIndex >= 55) {
+      return "ЕГЭ по информатике можно рассматривать. Следующий шаг — попробовать Python и несколько заданий экзамена.";
+    }
+    if (scores.egeIndex >= 40) {
+      return "Решение о ЕГЭ лучше принимать после диагностического занятия и знакомства с заданиями экзамена.";
+    }
+    return "Сейчас информатика не выглядит очевидным выбором для ЕГЭ, но результат не является окончательным.";
+  }
+
   if (scores.egeIndex >= 70 && scores.interest >= 60 && scores.logic >= 55) {
     return "В будущем имеет смысл рассматривать ЕГЭ по информатике и познакомиться с программированием глубже.";
   }
