@@ -27,6 +27,7 @@ export default function SiteHeader() {
           rel="noopener noreferrer"
           aria-label="Открыть Telegram-канал informatika_kege_itpy"
         >
+          <span className={styles.socialHint}>Ссылка на наш Telegram-канал ↓</span>
           <Image
             className={styles.socialImage}
             src="/branding/itpy-socials.png"
