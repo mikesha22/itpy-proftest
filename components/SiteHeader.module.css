@@ -61,7 +61,7 @@
 .socialHint {
   align-self: flex-end;
   color: var(--ink-soft);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 650;
   line-height: 1.25;
 }
@@ -97,6 +97,10 @@
 
   .socialImage {
     max-height: 54px;
+  }
+
+  .socialHint {
+    font-size: 13px;
   }
 }
 
