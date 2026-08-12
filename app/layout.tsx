@@ -6,7 +6,7 @@ import "./globals.css";
 import "./theme.css";
 
 export const metadata: Metadata = {
-  title: "Стоит ли тебе сдавать информатику? — itpy",
+  title: "Проверь свою готовность к ОГЭ и ЕГЭ по информатике — itpy",
   description: "Диагностический мини-тест для учеников 8–9 классов.",
 };
 
