@@ -12,7 +12,6 @@ export default function HomePage() {
           </p>
           <div className="hero-actions">
             <Link className="button button-primary" href="/test">Начать тест</Link>
-            <span className="time-pill">примерно 30–40 минут</span>
           </div>
         </div>
         <aside className="hero-card">
