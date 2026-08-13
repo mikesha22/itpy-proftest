@@ -14,18 +14,12 @@
   border-bottom: 2px solid var(--green);
 }
 
-.logoLink {
+.logo {
   flex: 0 0 auto;
   display: block;
   line-height: 0;
-  transition: transform 160ms ease;
 }
 
-.logoLink:hover {
-  transform: translateY(-2px);
-}
-
-.logoLink:focus-visible,
 .socialLink:focus-visible {
   outline: 3px solid rgba(31, 107, 87, 0.28);
   outline-offset: 4px;
@@ -125,7 +119,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .logoLink,
   .socialLink {
     transition: none;
   }

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import styles from "./SiteHeader.module.css";
 
@@ -9,7 +8,7 @@ export default function SiteHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <Link className={styles.logoLink} href="/" aria-label="itpy — на главную страницу">
+        <div className={styles.logo}>
           <Image
             className={styles.logoImage}
             src="/branding/itpy-logo.png"
@@ -18,7 +17,7 @@ export default function SiteHeader() {
             height={720}
             priority
           />
-        </Link>
+        </div>
 
         <a
           className={styles.socialLink}
