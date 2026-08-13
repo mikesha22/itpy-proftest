@@ -14,6 +14,9 @@ import {
 } from "@/lib/resultDescriptions";
 import type { ResultPayload } from "@/lib/types";
 import styles from "./ResultView.module.css";
+
+const TRIAL_LESSON_URL = "https://planerka.app/ilandroxy";
+
 function formatDate(value: string) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "Дата не указана";
@@ -68,7 +71,6 @@ export default function ResultView({
 }) {
   const profile = profiles[payload.profileId];
   const egeOnly = isEgeOnlyGrade(payload.participant.grade);
-  const nextStep = egeOnly ? profile.egeNextStep ?? profile.nextStep : profile.nextStep;
   const egeCopy = egeRecommendation(payload.scores, payload.participant.grade);
   const ranked = useMemo(() => rankedScores(payload.scores), [payload.scores]);
   const strengths = ranked.slice(0, 2);
@@ -170,7 +172,15 @@ export default function ResultView({
             </article>
             <article className="result-card next-step-card">
               <span className="card-kicker">Следующий шаг</span>
-              <h2>{nextStep}</h2>
+              <h2>Записаться на пробное занятие</h2>
+              <a
+                className="button button-primary"
+                href={TRIAL_LESSON_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Записаться на пробное занятие
+              </a>
               {payload.participant.interests.length > 0 && (
                 <p>Тебя особенно заинтересовали: {payload.participant.interests.join(", ")}.</p>
               )}
@@ -357,14 +367,17 @@ export default function ResultView({
             <strong>{payload.scores.code}</strong>
           </section>
           <section className={styles.pdfRouteCard}>
-            <span className={styles.pdfKicker}>Персональный маршрут</span>
-            <h2>{nextStep}</h2>
-            <ol>
-              <li><b>Попробовать практику.</b><span>Пройти небольшой вводный блок по Python или решить несколько базовых задач {egeOnly ? "ЕГЭ" : "ОГЭ"}.</span></li>
-              <li><b>Сделать что-то своё.</b><span>Мини-игра, простая программа или небольшой сайт лучше показывают реальный интерес, чем один тест.</span></li>
-              <li><b>Проверить учебный ритм.</b><span>Выделить две короткие практики в неделю и оценить, сохраняется ли желание продолжать.</span></li>
-              <li><b>Вернуться к выбору.</b><span>Решение по ЕГЭ принимать после практического опыта и знакомства с программированием.</span></li>
-            </ol>
+            <span className={styles.pdfKicker}>Следующий шаг</span>
+            <h2>Записаться на пробное занятие</h2>
+            <p className={styles.pdfTrialCopy}>Выбрать удобное время можно по ссылке:</p>
+            <a
+              className={styles.pdfTrialLink}
+              href={TRIAL_LESSON_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              planerka.app/ilandroxy
+            </a>
           </section>
           <section className={styles.pdfInterests}>
             <span className={styles.pdfKicker}>Интересы внутри IT</span>

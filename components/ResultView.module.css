@@ -423,6 +423,19 @@
     font-size: 14pt;
   }
 
+  .pdfTrialCopy {
+    margin: 3mm 0 1.5mm;
+    color: #48625b;
+    font-size: 8.5pt;
+  }
+
+  .pdfTrialLink {
+    color: #1f6b57;
+    font-size: 10pt;
+    font-weight: 850;
+    text-decoration: none;
+  }
+
   .pdfRouteCard ol {
     display: grid;
     grid-template-columns: 1fr 1fr;
