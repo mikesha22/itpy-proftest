@@ -31,10 +31,10 @@ const LOGO_DATA_URI = `data:image/png;base64,${readFileSync(
 ).toString("base64")}`;
 
 Font.register({
-  family: "DejaVu Sans",
+  family: "Inter",
   fonts: [
-    { src: path.join(process.cwd(), "public", "fonts", "DejaVuSans.ttf"), fontWeight: 400 },
-    { src: path.join(process.cwd(), "public", "fonts", "DejaVuSans-Bold.ttf"), fontWeight: 700 },
+    { src: path.join(process.cwd(), "public", "fonts", "Inter-Regular.ttf"), fontWeight: 400 },
+    { src: path.join(process.cwd(), "public", "fonts", "Inter-SemiBold.ttf"), fontWeight: 600 },
   ],
 });
 Font.registerHyphenationCallback((word) => [word]);
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     padding: 40,
     color: colors.ink,
     backgroundColor: colors.paper,
-    fontFamily: "DejaVu Sans",
+    fontFamily: "Inter",
     fontSize: 9,
   },
   header: {
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   heroLead: { marginTop: 10, maxWidth: 470, color: "#e0e4dc", fontSize: 9.5, lineHeight: 1.55 },
   meta: { flexDirection: "row", marginTop: 14, color: "#e0e4dc", fontSize: 8 },
   metaItem: { marginRight: 24 },
-  metaLabel: { color: colors.white, fontWeight: 700 },
+  metaLabel: { color: colors.white, fontWeight: 600 },
   section: {
     marginTop: 12,
     padding: 14,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   examHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
   kicker: { color: colors.green, fontSize: 7.5, fontWeight: 400 },
   examTitle: { marginTop: 3, fontSize: 12, fontWeight: 400 },
-  examScore: { color: colors.green, fontSize: 20, fontWeight: 700 },
+  examScore: { color: colors.green, fontSize: 20, fontWeight: 600 },
   examBody: { marginTop: 8, color: colors.muted, fontSize: 8, lineHeight: 1.42 },
   scoreGrid: { flexDirection: "row", flexWrap: "wrap", marginTop: 6, marginHorizontal: -4 },
   scoreCard: {
@@ -136,8 +136,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   scoreHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
-  scoreLabel: { maxWidth: 105, fontSize: 8, fontWeight: 700 },
-  scoreValue: { color: colors.green, fontSize: 12, fontWeight: 700 },
+  scoreLabel: { maxWidth: 105, fontSize: 8, fontWeight: 600 },
+  scoreValue: { color: colors.green, fontSize: 12, fontWeight: 600 },
   scoreTrack: { height: 5, marginTop: 7, borderRadius: 5, backgroundColor: "#e6e5de" },
   scoreFill: { height: 5, borderRadius: 5, backgroundColor: colors.green },
   scoreText: { marginTop: 7, color: colors.muted, fontSize: 6.5, lineHeight: 1.35 },
@@ -158,8 +158,8 @@ const styles = StyleSheet.create({
   insightItem: { marginTop: 12, paddingTop: 10, borderTopWidth: 1, borderTopColor: "#d9e2dc" },
   firstInsightItem: { borderTopWidth: 0, paddingTop: 0 },
   insightHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
-  insightLabel: { maxWidth: 175, fontSize: 9, fontWeight: 700 },
-  insightValue: { color: colors.green, fontSize: 13, fontWeight: 700 },
+  insightLabel: { maxWidth: 175, fontSize: 9, fontWeight: 600 },
+  insightValue: { color: colors.green, fontSize: 13, fontWeight: 600 },
   insightText: { marginTop: 6, color: colors.muted, fontSize: 7.5, lineHeight: 1.42 },
   codeCard: {
     flexDirection: "row",
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   codeKicker: { color: colors.lime },
   codeTitle: { marginTop: 5, fontSize: 13, fontWeight: 400 },
   codeBody: { marginTop: 7, color: "#e0e4dc", fontSize: 8, lineHeight: 1.45 },
-  codeScore: { color: colors.lime, fontSize: 24, fontWeight: 700 },
+  codeScore: { color: colors.lime, fontSize: 24, fontWeight: 600 },
   trialCard: {
     marginTop: 14,
     padding: 17,
@@ -186,11 +186,10 @@ const styles = StyleSheet.create({
   },
   trialTitle: { marginTop: 5, fontSize: 14, fontWeight: 400 },
   trialCopy: { marginTop: 7, color: colors.muted, fontSize: 8.5 },
-  trialLink: { marginTop: 6, color: colors.green, fontSize: 11, fontWeight: 700, textDecoration: "none" },
+  trialLink: { marginTop: 6, color: colors.green, fontSize: 11, fontWeight: 600, textDecoration: "none" },
   interests: { marginTop: 14, padding: 13, borderLeftWidth: 5, borderLeftColor: colors.lime, backgroundColor: colors.soft },
   interestsText: { marginTop: 5, color: colors.muted, fontSize: 8.5 },
   notice: {
-    flexDirection: "row",
     marginTop: 14,
     padding: 13,
     borderWidth: 1,
@@ -198,8 +197,8 @@ const styles = StyleSheet.create({
     borderRadius: 11,
     backgroundColor: colors.white,
   },
-  noticeTitle: { width: 55, color: colors.green, fontSize: 8.5, fontWeight: 700 },
-  noticeText: { flexGrow: 1, color: colors.muted, fontSize: 7.5, lineHeight: 1.4 },
+  noticeTitle: { marginBottom: 5, color: colors.green, fontSize: 8.5, fontWeight: 600 },
+  noticeText: { width: "100%", color: colors.muted, fontSize: 7.5, lineHeight: 1.45 },
   footer: {
     position: "absolute",
     left: 40,
