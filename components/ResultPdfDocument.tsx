@@ -1,12 +1,14 @@
 import {
   Document,
   Font,
+  Image,
   Link,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { isEgeOnlyGrade } from "@/lib/grades";
 import { profiles } from "@/lib/profiles";
@@ -24,6 +26,9 @@ import type { ResultPayload } from "@/lib/types";
 const TRIAL_LESSON_URL = "https://planerka.app/ilandroxy";
 const TELEGRAM_CHANNEL_URL = "https://t.me/informatika_kege_itpy";
 const RESULT_SITE_URL = "https://itpy-proftest.vercel.app";
+const LOGO_DATA_URI = `data:image/png;base64,${readFileSync(
+  path.join(process.cwd(), "public", "branding", "itpy-logo.png"),
+).toString("base64")}`;
 
 Font.register({
   family: "DejaVu Sans",
@@ -35,16 +40,16 @@ Font.register({
 Font.registerHyphenationCallback((word) => [word]);
 
 const colors = {
-  ink: "#17342d",
-  muted: "#48625b",
-  green: "#1f6b57",
-  dark: "#153f35",
-  lime: "#dff676",
-  limeSoft: "#f3fbd1",
-  paper: "#fffef9",
-  line: "#d9e2dc",
-  soft: "#f6f5ee",
-  white: "#ffffff",
+  ink: "#233d35",
+  muted: "#66736d",
+  green: "#3d705e",
+  dark: "#315e50",
+  lime: "#c2c797",
+  limeSoft: "#f0f0df",
+  paper: "#fffdf8",
+  line: "#d8d8ce",
+  soft: "#efeee7",
+  white: "#fffdf8",
 };
 
 const styles = StyleSheet.create({
@@ -64,27 +69,18 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.line,
   },
   brandRow: { flexDirection: "row", alignItems: "center" },
-  logoBadge: {
-    width: 44,
-    height: 44,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 12,
-    borderRadius: 12,
-    backgroundColor: colors.dark,
-  },
-  logoText: { color: "#f5f3ff", fontSize: 9.5, fontWeight: 700 },
+  logo: { width: 46, height: 46, marginRight: 12, objectFit: "contain" },
   brandCopy: { color: colors.muted, fontSize: 8 },
   brandTitle: { color: colors.ink, fontSize: 11, fontWeight: 400, marginBottom: 3 },
   socialBlock: { alignItems: "flex-end" },
   socialLink: { alignItems: "flex-end", textDecoration: "none" },
   socialHint: { marginBottom: 3, color: colors.muted, fontSize: 7.5 },
-  socialHandle: { color: colors.green, fontSize: 9, fontWeight: 700 },
+  socialHandle: { color: colors.green, fontSize: 8.5, fontWeight: 400 },
   date: { marginTop: 4, color: colors.muted, fontSize: 8, textAlign: "right" },
   hero: {
     marginTop: 17,
-    padding: 22,
-    borderRadius: 14,
+    padding: 20,
+    borderRadius: 16,
     color: colors.white,
     backgroundColor: colors.dark,
   },
@@ -93,9 +89,9 @@ const styles = StyleSheet.create({
     fontSize: 8.5,
     fontWeight: 400,
   },
-  heroTitle: { marginTop: 9, fontSize: 24, fontWeight: 400, lineHeight: 1.14 },
-  heroLead: { marginTop: 10, maxWidth: 470, color: "#c7d2ce", fontSize: 10, lineHeight: 1.5 },
-  meta: { flexDirection: "row", marginTop: 14, color: "#c7d2ce", fontSize: 8 },
+  heroTitle: { marginTop: 9, fontSize: 22, fontWeight: 400, lineHeight: 1.18 },
+  heroLead: { marginTop: 10, maxWidth: 470, color: "#e0e4dc", fontSize: 9.5, lineHeight: 1.55 },
+  meta: { flexDirection: "row", marginTop: 14, color: "#e0e4dc", fontSize: 8 },
   metaItem: { marginRight: 24 },
   metaLabel: { color: colors.white, fontWeight: 700 },
   section: {
@@ -103,10 +99,10 @@ const styles = StyleSheet.create({
     padding: 14,
     borderWidth: 1,
     borderColor: colors.line,
-    borderRadius: 10,
+    borderRadius: 12,
     backgroundColor: colors.white,
   },
-  sectionTitle: { fontSize: 12, fontWeight: 700, marginBottom: 7 },
+  sectionTitle: { fontSize: 12, fontWeight: 400, marginBottom: 7 },
   body: { color: colors.muted, fontSize: 9, lineHeight: 1.5 },
   examRow: { flexDirection: "row", marginTop: 12 },
   examCard: {
@@ -116,15 +112,15 @@ const styles = StyleSheet.create({
     padding: 14,
     borderWidth: 1,
     borderColor: colors.line,
-    borderRadius: 11,
+    borderRadius: 12,
     backgroundColor: colors.white,
   },
   examCardGap: { marginRight: 10 },
-  examAccent: { borderColor: "#d5ea78", backgroundColor: colors.limeSoft },
+  examAccent: { borderColor: "#c8c9ab", backgroundColor: colors.limeSoft },
   examHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
   kicker: { color: colors.green, fontSize: 7.5, fontWeight: 400 },
   examTitle: { marginTop: 3, fontSize: 12, fontWeight: 400 },
-  examScore: { color: colors.green, fontSize: 22, fontWeight: 700 },
+  examScore: { color: colors.green, fontSize: 20, fontWeight: 700 },
   examBody: { marginTop: 8, color: colors.muted, fontSize: 8, lineHeight: 1.42 },
   scoreGrid: { flexDirection: "row", flexWrap: "wrap", marginTop: 6, marginHorizontal: -4 },
   scoreCard: {
@@ -136,16 +132,16 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: colors.line,
-    borderRadius: 9,
+    borderRadius: 11,
     backgroundColor: colors.white,
   },
   scoreHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
   scoreLabel: { maxWidth: 105, fontSize: 8, fontWeight: 700 },
-  scoreValue: { color: colors.green, fontSize: 13, fontWeight: 700 },
-  scoreTrack: { height: 5, marginTop: 7, borderRadius: 5, backgroundColor: "#e4ebe6" },
+  scoreValue: { color: colors.green, fontSize: 12, fontWeight: 700 },
+  scoreTrack: { height: 5, marginTop: 7, borderRadius: 5, backgroundColor: "#e6e5de" },
   scoreFill: { height: 5, borderRadius: 5, backgroundColor: colors.green },
   scoreText: { marginTop: 7, color: colors.muted, fontSize: 6.5, lineHeight: 1.35 },
-  smallHeaderName: { fontSize: 11, fontWeight: 700 },
+  smallHeaderName: { fontSize: 11, fontWeight: 400 },
   smallHeaderCopy: { color: colors.muted, fontSize: 9 },
   insightRow: { flexDirection: "row", marginTop: 16 },
   insightCard: {
@@ -154,11 +150,11 @@ const styles = StyleSheet.create({
     padding: 15,
     borderWidth: 1,
     borderColor: colors.line,
-    borderRadius: 11,
+    borderRadius: 12,
     backgroundColor: colors.white,
   },
   insightGap: { marginRight: 11 },
-  insightAccent: { borderColor: "#d5ea78", backgroundColor: colors.limeSoft },
+  insightAccent: { borderColor: "#c8c9ab", backgroundColor: colors.limeSoft },
   insightItem: { marginTop: 12, paddingTop: 10, borderTopWidth: 1, borderTopColor: "#d9e2dc" },
   firstInsightItem: { borderTopWidth: 0, paddingTop: 0 },
   insightHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
@@ -171,21 +167,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 14,
     padding: 16,
-    borderRadius: 11,
+    borderRadius: 14,
     color: colors.white,
     backgroundColor: colors.dark,
   },
   codeCopy: { width: 430 },
   codeKicker: { color: colors.lime },
   codeTitle: { marginTop: 5, fontSize: 13, fontWeight: 400 },
-  codeBody: { marginTop: 7, color: "#c7d2ce", fontSize: 8, lineHeight: 1.45 },
-  codeScore: { color: colors.lime, fontSize: 26, fontWeight: 700 },
+  codeBody: { marginTop: 7, color: "#e0e4dc", fontSize: 8, lineHeight: 1.45 },
+  codeScore: { color: colors.lime, fontSize: 24, fontWeight: 700 },
   trialCard: {
     marginTop: 14,
     padding: 17,
     borderWidth: 1,
-    borderColor: "#d5ea78",
-    borderRadius: 11,
+    borderColor: "#c8c9ab",
+    borderRadius: 14,
     backgroundColor: colors.limeSoft,
   },
   trialTitle: { marginTop: 5, fontSize: 14, fontWeight: 400 },
@@ -199,7 +195,7 @@ const styles = StyleSheet.create({
     padding: 13,
     borderWidth: 1,
     borderColor: colors.line,
-    borderRadius: 9,
+    borderRadius: 11,
     backgroundColor: colors.white,
   },
   noticeTitle: { width: 55, color: colors.green, fontSize: 8.5, fontWeight: 700 },
@@ -263,7 +259,7 @@ export default function ResultPdfDocument({ payload }: { payload: ResultPayload 
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <View style={styles.brandRow}>
-            <View style={styles.logoBadge}><Text style={styles.logoText}>&lt;/itpy&gt;</Text></View>
+            <Image src={LOGO_DATA_URI} style={styles.logo} />
             <View style={styles.brandCopy}>
               <Text style={styles.brandTitle}>Персональный результат</Text>
               <Text>{egeOnly ? "Информатика · ЕГЭ" : "Информатика · ОГЭ · ЕГЭ"}</Text>
@@ -326,9 +322,7 @@ export default function ResultPdfDocument({ payload }: { payload: ResultPayload 
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <View style={styles.brandRow}>
-            <View style={[styles.logoBadge, { width: 38, height: 38, borderRadius: 10 }]}>
-              <Text style={[styles.logoText, { fontSize: 8.5 }]}>&lt;/itpy&gt;</Text>
-            </View>
+            <Image src={LOGO_DATA_URI} style={[styles.logo, { width: 38, height: 38 }]} />
             <View><Text style={styles.smallHeaderName}>{displayName}</Text><Text style={styles.smallHeaderCopy}>Подробный разбор результата</Text></View>
           </View>
           <Link src={TELEGRAM_CHANNEL_URL} style={styles.socialLink}>
