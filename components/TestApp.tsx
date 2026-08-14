@@ -517,7 +517,7 @@ export default function TestApp() {
               <div className={`feedback ${state.correct ? "feedback-correct" : "feedback-explanation"}`}>
                 <b>{state.correct ? "Верно." : "Разбор"}</b>
                 {task.explanation}
-                {state.revealed && task.solutionCode && (
+                {state.revealed && task.answerType !== "code" && task.solutionCode && (
                   <>
                     <span>Один из вариантов решения:</span>
                     <pre className="code-block explanation-code"><code>{task.solutionCode}</code></pre>
