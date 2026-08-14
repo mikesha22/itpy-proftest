@@ -337,7 +337,7 @@ export default function TestApp() {
   }
 
   if (!restored) return <main className="site-shell test-shell"><div className="loading-card">Загружаем тест…</div></main>;
-  if (stage === "result" && result) return <ResultView payload={result} onRestart={resetTest} />;
+  if (stage === "result" && result) return <ResultView payload={result} />;
 
   return (
     <main className="site-shell test-shell">

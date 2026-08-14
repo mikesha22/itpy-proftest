@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { isEgeOnlyGrade } from "@/lib/grades";
 import { profiles } from "@/lib/profiles";
 import { rankedScores, resultScoreItems } from "@/lib/resultDescriptions";
@@ -31,11 +32,9 @@ function downloadBlob(blob: Blob, fileName: string) {
 
 export default function ResultView({
   payload,
-  onRestart,
 }: {
   payload: ResultPayload;
   shared?: boolean;
-  onRestart?: () => void;
 }) {
   const [pdfState, setPdfState] = useState<"idle" | "loading">("idle");
   const [pdfError, setPdfError] = useState("");
@@ -95,11 +94,13 @@ export default function ResultView({
           <button className="text-button" type="button" onClick={savePdf} disabled={pdfState === "loading"}>
             {pdfState === "loading" ? "Готовим PDF…" : "Скачать красивый PDF"}
           </button>
-          {onRestart && (
-            <button className="button button-secondary" onClick={onRestart}>
-              Пройти тест заново
-            </button>
-          )}
+          <Link
+            className="button button-secondary"
+            href="/"
+            onClick={() => localStorage.removeItem("itpy-proftest-progress-v0.2")}
+          >
+            Пройти тест заново
+          </Link>
         </div>
         {pdfError && <p className={styles.pdfError} role="alert">{pdfError}</p>}
       </header>
