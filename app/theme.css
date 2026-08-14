@@ -8,6 +8,10 @@
   --ink-soft: #66736d;
   --green: #3d705e;
   --green-dark: #244b3f;
+  --green-action: #497968;
+  --green-action-hover: #3c6859;
+  --green-surface-start: #4b7868;
+  --green-surface-end: #386455;
   --lime: #b8bf88;
   --lime-soft: #f0f0df;
   --cream: #efeee7;
@@ -146,13 +150,13 @@ body {
 }
 
 .button-primary {
-  background: var(--green-dark);
-  box-shadow: 0 10px 24px rgba(36, 75, 63, 0.16);
+  background: var(--green-action);
+  box-shadow: 0 10px 24px rgba(56, 100, 85, 0.16);
 }
 
 .button-primary:hover:not(:disabled) {
-  background: #1d4036;
-  box-shadow: 0 14px 28px rgba(36, 75, 63, 0.21);
+  background: var(--green-action-hover);
+  box-shadow: 0 14px 28px rgba(56, 100, 85, 0.21);
 }
 
 .button-secondary {
@@ -178,8 +182,8 @@ body {
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: linear-gradient(145deg, #315e50, var(--green-dark));
-  box-shadow: 0 20px 46px rgba(36, 75, 63, 0.14);
+  background: linear-gradient(145deg, var(--green-surface-start), var(--green-surface-end));
+  box-shadow: 0 20px 46px rgba(56, 100, 85, 0.14);
   transform: rotate(0.55deg);
   transform-origin: center;
   pointer-events: none;
@@ -265,7 +269,7 @@ body {
 
 .progress-track span,
 .score-track span {
-  background: var(--green);
+  background: var(--green-action);
 }
 
 .question-card {
@@ -385,6 +389,12 @@ select:focus {
   line-height: 1.4;
 }
 
+.reflection-numbers button.selected,
+.mode-button.active {
+  border-color: var(--green-action);
+  background: var(--green-action);
+}
+
 .feedback-correct,
 .test-pass {
   background: var(--lime-soft);
@@ -395,8 +405,8 @@ select:focus {
 }
 
 .result-hero {
-  background: linear-gradient(145deg, #315f50, var(--green-dark));
-  box-shadow: 0 20px 48px rgba(36, 75, 63, 0.13);
+  background: linear-gradient(145deg, var(--green-surface-start), var(--green-surface-end));
+  box-shadow: 0 20px 48px rgba(56, 100, 85, 0.13);
 }
 
 .result-hero::after {
@@ -443,6 +453,10 @@ select:focus {
 
 .graph-task line {
   stroke: #596e66;
+}
+
+.graph-task circle {
+  fill: var(--green-action);
 }
 
 @media (max-width: 800px) {
