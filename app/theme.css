@@ -432,8 +432,8 @@ select:focus {
 
 .code-block,
 .python-editor {
-  border-color: #5b7068;
-  background: #314a41;
+  border-color: #36554b;
+  background: #1c332c;
   color: #f5f4ee;
 }
 
