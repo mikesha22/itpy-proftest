@@ -80,11 +80,11 @@ body {
 }
 
 .test-guide {
-  max-width: 720px;
-  margin-top: 24px;
-  padding: 17px 18px 18px;
+  max-width: 760px;
+  margin-top: 28px;
+  padding: 23px 24px 24px;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 22px;
   background: rgba(255, 253, 248, 0.72);
   box-shadow: 0 10px 28px rgba(49, 67, 59, 0.04);
 }
@@ -93,27 +93,28 @@ body {
   display: block;
   color: var(--ink);
   font-family: var(--font-heading);
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 710;
 }
 
 .test-guide-heading p {
-  margin: 4px 0 0;
+  margin: 5px 0 0;
   color: var(--ink-soft);
-  font-size: 13.5px;
-  line-height: 1.45;
+  font-size: 15.5px;
+  line-height: 1.55;
 }
 
 .test-guide-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 9px;
-  margin-top: 13px;
+  gap: 12px;
+  margin-top: 18px;
 }
 
 .test-guide-item {
-  padding: 11px 12px;
-  border-radius: 13px;
+  min-height: 126px;
+  padding: 16px 17px;
+  border-radius: 16px;
   background: rgba(239, 238, 231, 0.72);
 }
 
@@ -124,15 +125,15 @@ body {
 
 .test-guide-item b {
   color: var(--ink);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 680;
 }
 
 .test-guide-item span {
-  margin-top: 4px;
+  margin-top: 7px;
   color: var(--ink-soft);
-  font-size: 12px;
-  line-height: 1.42;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .hero-actions {
@@ -290,6 +291,37 @@ body {
   letter-spacing: 0.055em;
 }
 
+.question-navigation {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.question-navigation .question-meta {
+  flex: 1;
+}
+
+.question-back {
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fffefb;
+  line-height: 1;
+}
+
+.question-back:hover:not(:disabled) {
+  border-color: #a9ad82;
+  background: var(--lime-soft);
+}
+
+.question-back:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .field-label,
 .interest-fieldset legend,
 .work-style legend,
@@ -436,7 +468,7 @@ select:focus {
 
   .test-guide {
     margin-top: 20px;
-    padding: 14px 15px;
+    padding: 18px;
   }
 
   .test-guide-grid {
@@ -445,7 +477,36 @@ select:focus {
   }
 
   .test-guide-item {
-    padding: 10px 11px;
+    min-height: 0;
+    padding: 14px 15px;
+  }
+
+  .test-guide-heading strong {
+    font-size: 18px;
+  }
+
+  .test-guide-heading p {
+    font-size: 15px;
+  }
+
+  .test-guide-item b {
+    font-size: 14.5px;
+  }
+
+  .test-guide-item span {
+    font-size: 13.5px;
+  }
+
+  .question-navigation {
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .question-navigation .question-meta {
+    min-height: 42px;
+    align-items: center;
+    gap: 10px;
   }
 
   .question-card h1 {

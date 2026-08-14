@@ -409,7 +409,10 @@ export default function TestApp() {
         const question = surveyQuestions[surveyIndex];
         return (
           <section className="question-card">
-            <div className="question-meta"><span>Анкета</span><b>{surveyIndex + 1} / {surveyQuestions.length}</b></div>
+            <div className="question-navigation">
+              <button className="text-button question-back" onClick={previousSurveyQuestion} disabled={questionLocked}>← Назад</button>
+              <div className="question-meta"><span>Анкета</span><b>{surveyIndex + 1} / {surveyQuestions.length}</b></div>
+            </div>
             <h1>{question.text}</h1>
             <p className="question-lead">Выбери ответ, который лучше описывает тебя в обычной ситуации.</p>
             <div className="scale-options">
@@ -427,7 +430,6 @@ export default function TestApp() {
                 );
               })}
             </div>
-            <button className="text-button back-button" onClick={previousSurveyQuestion} disabled={questionLocked}>← Назад</button>
           </section>
         );
       })()}
@@ -438,7 +440,10 @@ export default function TestApp() {
         const wrong = state.attempts > 0 && !state.completed && !state.correct;
         return (
           <section className="question-card task-card">
-            <div className="question-meta"><span>Практика</span><b>{taskIndex + 1} / {practicalTasks.length}</b></div>
+            <div className="question-navigation">
+              <button className="text-button question-back" onClick={previousTask} disabled={questionLocked}>← Назад</button>
+              <div className="question-meta"><span>Практика</span><b>{taskIndex + 1} / {practicalTasks.length}</b></div>
+            </div>
             <div className="task-badge">Задание {taskIndex + 1}</div>
             <h1>{task.title}</h1>
             <p className="task-prompt">{task.prompt}</p>
@@ -537,7 +542,6 @@ export default function TestApp() {
                   {taskIndex === practicalTasks.length - 1 ? "Перейти к итоговым вопросам" : "Следующее задание"}
                 </button>
               )}
-              <button className="text-button" onClick={previousTask} disabled={questionLocked}>← Назад</button>
             </div>
           </section>
         );
@@ -545,7 +549,10 @@ export default function TestApp() {
 
       {stage === "reflection" && (
         <section className="question-card reflection-card">
-          <div className="eyebrow">Последний блок</div>
+          <div className="question-navigation">
+            <button className="text-button question-back" onClick={returnToLastTask}>← К заданию</button>
+            <div className="question-meta"><span>Последний блок</span></div>
+          </div>
           <h1>Как прошла практическая часть?</h1>
           <p className="question-lead">Эти ответы не оцениваются как правильные или неправильные.</p>
 
@@ -576,7 +583,6 @@ export default function TestApp() {
           </fieldset>
 
           <div className="task-actions">
-            <button className="text-button" onClick={returnToLastTask}>← К последнему заданию</button>
             <button className="button button-primary" disabled={!reflectionComplete} onClick={finishTest}>
               Получить результат
             </button>
