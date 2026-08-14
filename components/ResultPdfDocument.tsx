@@ -1,7 +1,6 @@
 import {
   Document,
   Font,
-  Image,
   Link,
   Page,
   StyleSheet,
@@ -23,6 +22,7 @@ import { egeRecommendation, ogeRecommendation } from "@/lib/scoring";
 import type { ResultPayload } from "@/lib/types";
 
 const TRIAL_LESSON_URL = "https://planerka.app/ilandroxy";
+const TELEGRAM_CHANNEL_URL = "https://t.me/informatika_kege_itpy";
 const RESULT_SITE_URL = "https://itpy-proftest.vercel.app";
 
 Font.register({
@@ -64,26 +64,36 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.line,
   },
   brandRow: { flexDirection: "row", alignItems: "center" },
-  logo: { width: 48, height: 48, objectFit: "contain", marginRight: 12 },
+  logoBadge: {
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+    borderRadius: 12,
+    backgroundColor: colors.dark,
+  },
+  logoText: { color: "#f5f3ff", fontSize: 9.5, fontWeight: 700 },
   brandCopy: { color: colors.muted, fontSize: 8 },
-  brandTitle: { color: colors.ink, fontSize: 12, fontWeight: 700, marginBottom: 3 },
-  social: { width: 170, height: 29, objectFit: "contain", objectPosition: "right" },
+  brandTitle: { color: colors.ink, fontSize: 11, fontWeight: 400, marginBottom: 3 },
+  socialBlock: { alignItems: "flex-end" },
+  socialLink: { alignItems: "flex-end", textDecoration: "none" },
+  socialHint: { marginBottom: 3, color: colors.muted, fontSize: 7.5 },
+  socialHandle: { color: colors.green, fontSize: 9, fontWeight: 700 },
   date: { marginTop: 4, color: colors.muted, fontSize: 8, textAlign: "right" },
   hero: {
     marginTop: 17,
-    padding: 24,
-    borderRadius: 18,
+    padding: 22,
+    borderRadius: 14,
     color: colors.white,
     backgroundColor: colors.dark,
   },
   eyebrow: {
     color: colors.lime,
-    fontSize: 8,
-    fontWeight: 700,
-    letterSpacing: 1.2,
-    textTransform: "uppercase",
+    fontSize: 8.5,
+    fontWeight: 400,
   },
-  heroTitle: { marginTop: 10, fontSize: 27, fontWeight: 700, lineHeight: 1.08 },
+  heroTitle: { marginTop: 9, fontSize: 24, fontWeight: 400, lineHeight: 1.14 },
   heroLead: { marginTop: 10, maxWidth: 470, color: "#c7d2ce", fontSize: 10, lineHeight: 1.5 },
   meta: { flexDirection: "row", marginTop: 14, color: "#c7d2ce", fontSize: 8 },
   metaItem: { marginRight: 24 },
@@ -96,7 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: colors.white,
   },
-  sectionTitle: { fontSize: 13, fontWeight: 700, marginBottom: 7 },
+  sectionTitle: { fontSize: 12, fontWeight: 700, marginBottom: 7 },
   body: { color: colors.muted, fontSize: 9, lineHeight: 1.5 },
   examRow: { flexDirection: "row", marginTop: 12 },
   examCard: {
@@ -112,9 +122,9 @@ const styles = StyleSheet.create({
   examCardGap: { marginRight: 10 },
   examAccent: { borderColor: "#d5ea78", backgroundColor: colors.limeSoft },
   examHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  kicker: { color: colors.green, fontSize: 7, fontWeight: 700, letterSpacing: 1.1, textTransform: "uppercase" },
-  examTitle: { marginTop: 3, fontSize: 13, fontWeight: 700 },
-  examScore: { color: colors.green, fontSize: 25, fontWeight: 700 },
+  kicker: { color: colors.green, fontSize: 7.5, fontWeight: 400 },
+  examTitle: { marginTop: 3, fontSize: 12, fontWeight: 400 },
+  examScore: { color: colors.green, fontSize: 22, fontWeight: 700 },
   examBody: { marginTop: 8, color: colors.muted, fontSize: 8, lineHeight: 1.42 },
   scoreGrid: { flexDirection: "row", flexWrap: "wrap", marginTop: 6, marginHorizontal: -4 },
   scoreCard: {
@@ -131,7 +141,7 @@ const styles = StyleSheet.create({
   },
   scoreHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
   scoreLabel: { maxWidth: 105, fontSize: 8, fontWeight: 700 },
-  scoreValue: { color: colors.green, fontSize: 14, fontWeight: 700 },
+  scoreValue: { color: colors.green, fontSize: 13, fontWeight: 700 },
   scoreTrack: { height: 5, marginTop: 7, borderRadius: 5, backgroundColor: "#e4ebe6" },
   scoreFill: { height: 5, borderRadius: 5, backgroundColor: colors.green },
   scoreText: { marginTop: 7, color: colors.muted, fontSize: 6.5, lineHeight: 1.35 },
@@ -153,7 +163,7 @@ const styles = StyleSheet.create({
   firstInsightItem: { borderTopWidth: 0, paddingTop: 0 },
   insightHead: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
   insightLabel: { maxWidth: 175, fontSize: 9, fontWeight: 700 },
-  insightValue: { color: colors.green, fontSize: 14, fontWeight: 700 },
+  insightValue: { color: colors.green, fontSize: 13, fontWeight: 700 },
   insightText: { marginTop: 6, color: colors.muted, fontSize: 7.5, lineHeight: 1.42 },
   codeCard: {
     flexDirection: "row",
@@ -167,9 +177,9 @@ const styles = StyleSheet.create({
   },
   codeCopy: { width: 430 },
   codeKicker: { color: colors.lime },
-  codeTitle: { marginTop: 5, fontSize: 14, fontWeight: 700 },
+  codeTitle: { marginTop: 5, fontSize: 13, fontWeight: 400 },
   codeBody: { marginTop: 7, color: "#c7d2ce", fontSize: 8, lineHeight: 1.45 },
-  codeScore: { color: colors.lime, fontSize: 30, fontWeight: 700 },
+  codeScore: { color: colors.lime, fontSize: 26, fontWeight: 700 },
   trialCard: {
     marginTop: 14,
     padding: 17,
@@ -178,7 +188,7 @@ const styles = StyleSheet.create({
     borderRadius: 11,
     backgroundColor: colors.limeSoft,
   },
-  trialTitle: { marginTop: 5, fontSize: 15, fontWeight: 700 },
+  trialTitle: { marginTop: 5, fontSize: 14, fontWeight: 400 },
   trialCopy: { marginTop: 7, color: colors.muted, fontSize: 8.5 },
   trialLink: { marginTop: 6, color: colors.green, fontSize: 11, fontWeight: 700, textDecoration: "none" },
   interests: { marginTop: 14, padding: 13, borderLeftWidth: 5, borderLeftColor: colors.lime, backgroundColor: colors.soft },
@@ -248,22 +258,22 @@ export default function ResultPdfDocument({ payload }: { payload: ResultPayload 
   const interests = payload.participant.interests.length > 0
     ? payload.participant.interests.join(", ")
     : "Пока не выбраны";
-  const logoPath = path.join(process.cwd(), "public", "branding", "itpy-logo.png");
-  const socialsPath = path.join(process.cwd(), "public", "branding", "itpy-socials.png");
-
   return (
     <Document title={`Результат itpy - ${displayName}`} author="itpy" subject="Результат теста по информатике">
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <View style={styles.brandRow}>
-            <Image src={logoPath} style={styles.logo} />
+            <View style={styles.logoBadge}><Text style={styles.logoText}>&lt;/itpy&gt;</Text></View>
             <View style={styles.brandCopy}>
               <Text style={styles.brandTitle}>Персональный результат</Text>
               <Text>{egeOnly ? "Информатика · ЕГЭ" : "Информатика · ОГЭ · ЕГЭ"}</Text>
             </View>
           </View>
-          <View>
-            <Image src={socialsPath} style={styles.social} />
+          <View style={styles.socialBlock}>
+            <Link src={TELEGRAM_CHANNEL_URL} style={styles.socialLink}>
+              <Text style={styles.socialHint}>Ссылка на наш Telegram-канал ↓</Text>
+              <Text style={styles.socialHandle}>t.me/informatika_kege_itpy</Text>
+            </Link>
             <Text style={styles.date}>{formatDate(payload.completedAt)}</Text>
           </View>
         </View>
@@ -316,10 +326,15 @@ export default function ResultPdfDocument({ payload }: { payload: ResultPayload 
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <View style={styles.brandRow}>
-            <Image src={logoPath} style={[styles.logo, { width: 38, height: 38 }]} />
+            <View style={[styles.logoBadge, { width: 38, height: 38, borderRadius: 10 }]}>
+              <Text style={[styles.logoText, { fontSize: 8.5 }]}>&lt;/itpy&gt;</Text>
+            </View>
             <View><Text style={styles.smallHeaderName}>{displayName}</Text><Text style={styles.smallHeaderCopy}>Подробный разбор результата</Text></View>
           </View>
-          <Image src={socialsPath} style={styles.social} />
+          <Link src={TELEGRAM_CHANNEL_URL} style={styles.socialLink}>
+            <Text style={styles.socialHint}>Ссылка на наш Telegram-канал ↓</Text>
+            <Text style={styles.socialHandle}>t.me/informatika_kege_itpy</Text>
+          </Link>
         </View>
 
         <View style={styles.insightRow}>
