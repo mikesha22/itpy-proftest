@@ -76,7 +76,7 @@ export type ReflectionAnswers = {
   wantMore: number;
   calmness: number;
   errorReaction: number;
-  workStyle: "check" | "mixed" | "guess";
+  workStyle: "check" | "hints" | "selective" | "mixed" | "guess";
 };
 
 export type Participant = {
