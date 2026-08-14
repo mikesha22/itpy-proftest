@@ -10,3 +10,44 @@
   color: var(--danger);
   font-size: 14px;
 }
+
+.indexNote {
+  position: relative;
+  z-index: 1;
+  max-width: 850px;
+  margin-top: 22px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 253, 248, 0.08);
+}
+
+.indexNote strong {
+  display: block;
+  color: #fffdf8;
+  font-size: 15.5px;
+  font-weight: 680;
+}
+
+.indexNote p {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 560px) {
+  .indexNote {
+    margin-top: 18px;
+    padding: 14px 15px;
+  }
+
+  .indexNote strong {
+    font-size: 15px;
+  }
+
+  .indexNote p {
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+}

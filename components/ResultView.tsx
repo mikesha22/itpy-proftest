@@ -114,6 +114,16 @@ export default function ResultView({
           )}
           <div><span>{egeOnly ? "Индекс ЕГЭ" : "Перспектива ЕГЭ"}</span><strong>{payload.scores.egeIndex}</strong><small>из 100</small></div>
         </div>
+        <div className={styles.indexNote} role="note">
+          <strong>Важно: это не экзаменационные баллы</strong>
+          <p>
+            Показанные индексы — не прогноз баллов на ОГЭ или ЕГЭ и не оценка знаний.
+            Это внутренние показатели по шкале от 1 до 100, которые учитывают результаты
+            заданий, текущие навыки, интерес к информатике, вовлечённость, учебные привычки
+            и отношение к трудностям. Они помогают ориентировочно понять стартовую точку
+            для подготовки, но не показывают будущий результат на реальном экзамене.
+          </p>
+        </div>
       </section>
 
       <div className="result-layout" style={{ gridTemplateColumns: "minmax(0, 1fr)" }}>
