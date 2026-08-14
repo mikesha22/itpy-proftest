@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import { isEgeOnlyGrade } from "@/lib/grades";
 import { profiles } from "@/lib/profiles";
 import { rankedScores, resultScoreItems } from "@/lib/resultDescriptions";
@@ -87,6 +86,11 @@ export default function ResultView({
     }
   }
 
+  function restartFromBeginning() {
+    localStorage.removeItem("itpy-proftest-progress-v0.2");
+    window.location.replace("/");
+  }
+
   return (
     <main className="site-shell result-shell">
       <header className="topbar">
@@ -94,13 +98,13 @@ export default function ResultView({
           <button className="text-button" type="button" onClick={savePdf} disabled={pdfState === "loading"}>
             {pdfState === "loading" ? "Готовим PDF…" : "Скачать красивый PDF"}
           </button>
-          <Link
+          <button
+            type="button"
             className="button button-secondary"
-            href="/"
-            onClick={() => localStorage.removeItem("itpy-proftest-progress-v0.2")}
+            onClick={restartFromBeginning}
           >
             Пройти тест заново
-          </Link>
+          </button>
         </div>
         {pdfError && <p className={styles.pdfError} role="alert">{pdfError}</p>}
       </header>
