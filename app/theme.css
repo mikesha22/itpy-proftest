@@ -437,8 +437,20 @@ select:focus {
   color: #f5f4ee;
 }
 
-.python-editor:focus {
+.python-editor-shell {
+  border-color: #36554b;
+  background: #1c332c;
+}
+
+.python-editor-shell .python-editor {
+  border: 0;
+  background: transparent;
+}
+
+.python-editor-shell:focus-within {
+  border-color: #83968f;
   outline-color: rgba(184, 191, 136, 0.3);
+  box-shadow: 0 0 0 5px rgba(184, 191, 136, 0.09);
 }
 
 .graph-task line {

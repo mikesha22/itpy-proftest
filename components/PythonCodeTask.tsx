@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { runPythonTests, type PythonCaseResult } from "@/lib/pythonRunner";
 import type { CodePracticalTask } from "@/lib/types";
 
@@ -20,6 +20,22 @@ export default function PythonCodeTask({
   const [running, setRunning] = useState(false);
   const [results, setResults] = useState<PythonCaseResult[]>([]);
   const [error, setError] = useState("");
+  const lineNumbersRef = useRef<HTMLDivElement>(null);
+  const lineNumbers = value.split("\n");
+
+  function insertIndent(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key !== "Tab") return;
+    event.preventDefault();
+    const editor = event.currentTarget;
+    const start = editor.selectionStart;
+    const end = editor.selectionEnd;
+    const indent = "    ";
+    onChange(`${value.slice(0, start)}${indent}${value.slice(end)}`);
+    window.requestAnimationFrame(() => {
+      editor.selectionStart = start + indent.length;
+      editor.selectionEnd = start + indent.length;
+    });
+  }
 
   async function run() {
     setRunning(true);
@@ -39,14 +55,32 @@ export default function PythonCodeTask({
   return (
     <div className="python-task">
       <label className="answer-field">
-        <span>Твоя программа</span>
-        <textarea
-          className="python-editor"
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          disabled={disabled || running}
-          spellCheck={false}
-        />
+        <span>Напиши программу в редакторе ниже</span>
+        <div className="python-editor-shell">
+          <div className="python-editor-bar" aria-hidden="true">
+            <span className="python-editor-language">PY</span>
+            <span className="python-editor-file">main.py</span>
+            <span className="python-editor-hint">Пиши код здесь ↓</span>
+          </div>
+          <div className="python-editor-body">
+            <div className="python-line-numbers" ref={lineNumbersRef} aria-hidden="true">
+              {lineNumbers.map((_, index) => <span key={index}>{index + 1}</span>)}
+            </div>
+            <textarea
+              className="python-editor"
+              value={value}
+              onChange={(event) => onChange(event.target.value)}
+              onKeyDown={insertIndent}
+              onScroll={(event) => {
+                if (lineNumbersRef.current) lineNumbersRef.current.scrollTop = event.currentTarget.scrollTop;
+              }}
+              aria-label="Редактор программы Python"
+              disabled={disabled || running}
+              spellCheck={false}
+              wrap="off"
+            />
+          </div>
+        </div>
       </label>
       <button className="button button-primary" type="button" onClick={run} disabled={disabled || running || !value.trim()}>
         {running ? "Запускаем Python…" : "Запустить и проверить"}

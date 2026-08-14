@@ -367,19 +367,77 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 4px rg
 .graph-task .edge-label-bg { fill: white; stroke: var(--line); }
 .graph-task .edge-label { fill: var(--ink); font: 800 15px/1 sans-serif; text-anchor: middle; }
 .python-task { display: grid; gap: 16px; margin-top: 8px; }
+.python-editor-shell {
+  overflow: hidden;
+  border: 1px solid #263b35;
+  border-radius: 18px;
+  background: #14251f;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.python-editor-bar {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #304a41;
+  background: #20372f;
+}
+.python-editor-language {
+  margin-left: 14px;
+  border-radius: 6px;
+  padding: 3px 6px;
+  background: var(--lime);
+  color: var(--green-dark);
+  font: 800 10px/1.2 var(--font-body);
+  letter-spacing: .04em;
+}
+.python-editor-file {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  border-bottom: 2px solid var(--lime);
+  padding: 0 12px;
+  color: #f4f8f5;
+  font: 600 13px/1 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+.python-editor-hint {
+  margin-left: auto;
+  padding: 0 16px;
+  color: rgba(244, 248, 245, .68);
+  font-size: 12px;
+  font-weight: 650;
+}
+.python-editor-body {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: stretch;
+}
+.python-line-numbers {
+  height: 100%;
+  overflow: hidden;
+  border-right: 1px solid #304a41;
+  padding: 20px 11px 20px 6px;
+  background: #172a23;
+  color: #83988f;
+  text-align: right;
+  font: 500 15px/1.65 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  user-select: none;
+}
+.python-line-numbers span { display: block; }
 .python-editor {
   width: 100%;
   min-height: 260px;
   resize: vertical;
-  border: 1px solid #263b35;
-  border-radius: 18px;
-  background: #14251f;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: #f4f8f5;
   padding: 20px 22px;
   font: 600 15px/1.65 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   tab-size: 4;
+  outline: 0;
 }
-.python-editor:focus { outline: 3px solid rgba(136, 179, 66, .28); }
+.python-editor-shell:focus-within { outline: 3px solid rgba(136, 179, 66, .28); }
 .test-results { display: grid; gap: 8px; }
 .test-results > div { display: grid; gap: 4px; padding: 12px 15px; border-radius: 14px; }
 .test-pass { background: var(--lime-soft); color: var(--green-dark); }
@@ -387,5 +445,8 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 4px rg
 .test-results span { font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
 @media (max-width: 560px) {
   .graph-task { padding: 5px; }
-  .python-editor { min-height: 230px; padding: 16px 14px; font-size: 13px; }
+  .python-editor-hint { display: none; }
+  .python-editor-body { grid-template-columns: 38px minmax(0, 1fr); }
+  .python-line-numbers { padding: 16px 8px 16px 4px; font-size: 13px; }
+  .python-editor { min-height: 230px; padding: 16px 12px; font-size: 13px; }
 }
