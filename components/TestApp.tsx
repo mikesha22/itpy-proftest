@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import ResultView from "./ResultView";
 import GraphTask from "./GraphTask";
@@ -15,6 +15,8 @@ import type {
 } from "@/lib/types";
 
 type Stage = "profile" | "survey" | "tasks" | "reflection" | "result";
+
+const QUESTION_GUARD_MS = 450;
 
 const interests = [
   "программирование",
@@ -64,6 +66,9 @@ export default function TestApp() {
   const [reflection, setReflection] = useState<ReflectionAnswers>(defaultReflection);
   const [result, setResult] = useState<ResultPayload | null>(null);
   const [restored, setRestored] = useState(false);
+  const [questionLocked, setQuestionLocked] = useState(false);
+  const questionLockRef = useRef(false);
+  const questionUnlockTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     try {
@@ -94,6 +99,34 @@ export default function TestApp() {
     );
   }, [restored, stage, participant, surveyIndex, surveyAnswers, taskIndex, taskStates, reflection, result]);
 
+  useEffect(() => {
+    if (questionUnlockTimerRef.current !== null) {
+      window.clearTimeout(questionUnlockTimerRef.current);
+      questionUnlockTimerRef.current = null;
+    }
+
+    if (stage !== "survey" && stage !== "tasks") {
+      questionLockRef.current = false;
+      setQuestionLocked(false);
+      return;
+    }
+
+    questionLockRef.current = true;
+    setQuestionLocked(true);
+    questionUnlockTimerRef.current = window.setTimeout(() => {
+      questionLockRef.current = false;
+      setQuestionLocked(false);
+      questionUnlockTimerRef.current = null;
+    }, QUESTION_GUARD_MS);
+
+    return () => {
+      if (questionUnlockTimerRef.current !== null) {
+        window.clearTimeout(questionUnlockTimerRef.current);
+        questionUnlockTimerRef.current = null;
+      }
+    };
+  }, [stage, surveyIndex, taskIndex]);
+
   const progress = useMemo(() => {
     if (stage === "profile") return 2;
     if (stage === "survey") return Math.round(5 + ((surveyIndex + 1) / surveyQuestions.length) * 40);
@@ -111,13 +144,32 @@ export default function TestApp() {
     }));
   }
 
+  function beginQuestionTransition() {
+    if (questionLockRef.current) return false;
+    questionLockRef.current = true;
+    setQuestionLocked(true);
+    return true;
+  }
+
+  function startSurvey() {
+    if (!beginQuestionTransition()) return;
+    setStage("survey");
+  }
+
   function answerSurvey(value: number) {
+    if (!beginQuestionTransition()) return;
     const question = surveyQuestions[surveyIndex];
     setSurveyAnswers((current) => ({ ...current, [question.id]: value }));
     window.setTimeout(() => {
       if (surveyIndex < surveyQuestions.length - 1) setSurveyIndex((index) => index + 1);
       else setStage("tasks");
     }, 180);
+  }
+
+  function previousSurveyQuestion() {
+    if (!beginQuestionTransition()) return;
+    if (surveyIndex > 0) setSurveyIndex((index) => index - 1);
+    else setStage("profile");
   }
 
   function updateTaskState(taskId: string, patch: Partial<TaskState>) {
@@ -128,6 +180,7 @@ export default function TestApp() {
   }
 
   function setTaskAnswer(answer: string) {
+    if (questionLockRef.current) return;
     const task = practicalTasks[taskIndex];
     const state = taskStates[task.id] ?? emptyTaskState();
     if (state.completed) return;
@@ -144,6 +197,7 @@ export default function TestApp() {
   }
 
   function submitTask() {
+    if (questionLockRef.current) return;
     const task = practicalTasks[taskIndex];
     const state = taskStates[task.id] ?? emptyTaskState();
     if (task.answerType === "code" || !state.answer?.trim()) return;
@@ -175,6 +229,7 @@ export default function TestApp() {
   }
 
   function submitCodeResult(passed: boolean) {
+    if (questionLockRef.current) return;
     const task = practicalTasks[taskIndex];
     if (task.answerType !== "code") return;
     const state = taskStates[task.id] ?? emptyTaskState();
@@ -193,6 +248,7 @@ export default function TestApp() {
   }
 
   function revealHint() {
+    if (questionLockRef.current) return;
     const task = practicalTasks[taskIndex];
     const state = taskStates[task.id] ?? emptyTaskState();
     if (!task.hints || state.hintLevel >= task.hints.length) return;
@@ -203,6 +259,7 @@ export default function TestApp() {
   }
 
   function revealExplanation() {
+    if (questionLockRef.current) return;
     const task = practicalTasks[taskIndex];
     const state = taskStates[task.id] ?? emptyTaskState();
     updateTaskState(task.id, {
@@ -214,13 +271,30 @@ export default function TestApp() {
         ? task.correctOptionId
         : task.answerType === "input"
           ? task.correctAnswer
-          : state.answer ?? task.starterCode,
+          : task.solutionCode ?? state.answer ?? task.starterCode,
     });
   }
 
   function nextTask() {
+    if (!beginQuestionTransition()) return;
     if (taskIndex < practicalTasks.length - 1) setTaskIndex((index) => index + 1);
     else setStage("reflection");
+  }
+
+  function previousTask() {
+    if (!beginQuestionTransition()) return;
+    if (taskIndex > 0) {
+      setTaskIndex((index) => index - 1);
+      return;
+    }
+    setSurveyIndex(surveyQuestions.length - 1);
+    setStage("survey");
+  }
+
+  function returnToLastTask() {
+    if (!beginQuestionTransition()) return;
+    setTaskIndex(practicalTasks.length - 1);
+    setStage("tasks");
   }
 
   const reflectionComplete =
@@ -327,7 +401,7 @@ export default function TestApp() {
             </div>
           </fieldset>
 
-          <button className="button button-primary" onClick={() => setStage("survey")}>Перейти к анкете</button>
+          <button className="button button-primary" onClick={startSurvey}>Перейти к анкете</button>
         </section>
       )}
 
@@ -346,13 +420,14 @@ export default function TestApp() {
                     key={label}
                     className={`scale-button ${surveyAnswers[question.id] === value ? "selected" : ""}`}
                     onClick={() => answerSurvey(value)}
+                    disabled={questionLocked}
                   >
                     <span>{value}</span><b>{label}</b>
                   </button>
                 );
               })}
             </div>
-            {surveyIndex > 0 && <button className="text-button back-button" onClick={() => setSurveyIndex((index) => index - 1)}>← Назад</button>}
+            <button className="text-button back-button" onClick={previousSurveyQuestion} disabled={questionLocked}>← Назад</button>
           </section>
         );
       })()}
@@ -393,7 +468,7 @@ export default function TestApp() {
                     key={option.id}
                     className={`task-option ${state.answer === option.id ? "selected" : ""}`}
                     onClick={() => setTaskAnswer(option.id)}
-                    disabled={state.completed}
+                    disabled={state.completed || questionLocked}
                   >{option.label}</button>
                 ))}
               </div>
@@ -410,7 +485,7 @@ export default function TestApp() {
                     if (event.key === "Enter" && state.answer?.trim()) submitTask();
                   }}
                   placeholder={task.placeholder ?? "Введите ответ"}
-                  disabled={state.completed}
+                  disabled={state.completed || questionLocked}
                   autoComplete="off"
                 />
               </label>
@@ -418,7 +493,7 @@ export default function TestApp() {
               <PythonCodeTask
                 task={task}
                 value={state.answer ?? task.starterCode}
-                disabled={state.completed}
+                disabled={state.completed || questionLocked}
                 onChange={setTaskAnswer}
                 onChecked={submitCodeResult}
               />
@@ -449,19 +524,20 @@ export default function TestApp() {
 
             <div className="task-actions">
               {!state.completed && task.answerType !== "code" && (
-                <button className="button button-primary" disabled={!state.answer?.trim()} onClick={submitTask}>Проверить ответ</button>
+                <button className="button button-primary" disabled={questionLocked || !state.answer?.trim()} onClick={submitTask}>Проверить ответ</button>
               )}
               {!state.completed && wrong && task.hints && state.hintLevel < task.hints.length && (
-                <button className="button button-secondary" onClick={revealHint}>Открыть подсказку</button>
+                <button className="button button-secondary" onClick={revealHint} disabled={questionLocked}>Открыть подсказку</button>
               )}
-              {!state.completed && (wrong || task.id === "task13") && (
-                <button className="text-button" onClick={revealExplanation}>Показать полный разбор</button>
+              {!state.completed && (
+                <button className="text-button" onClick={revealExplanation} disabled={questionLocked}>Показать полный разбор</button>
               )}
               {state.completed && (
-                <button className="button button-primary" onClick={nextTask}>
+                <button className="button button-primary" onClick={nextTask} disabled={questionLocked}>
                   {taskIndex === practicalTasks.length - 1 ? "Перейти к итоговым вопросам" : "Следующее задание"}
                 </button>
               )}
+              <button className="text-button" onClick={previousTask} disabled={questionLocked}>← Назад</button>
             </div>
           </section>
         );
@@ -499,9 +575,12 @@ export default function TestApp() {
             ))}
           </fieldset>
 
-          <button className="button button-primary" disabled={!reflectionComplete} onClick={finishTest}>
-            Получить результат
-          </button>
+          <div className="task-actions">
+            <button className="text-button" onClick={returnToLastTask}>← К последнему заданию</button>
+            <button className="button button-primary" disabled={!reflectionComplete} onClick={finishTest}>
+              Получить результат
+            </button>
+          </div>
         </section>
       )}
     </main>

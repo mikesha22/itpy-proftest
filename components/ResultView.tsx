@@ -93,7 +93,7 @@ export default function ResultView({
       <header className="topbar">
         <div className={styles.screenActions}>
           <button className="text-button" type="button" onClick={savePdf} disabled={pdfState === "loading"}>
-            {pdfState === "loading" ? "Готовим PDF…" : "Скачать результат в PDF"}
+            {pdfState === "loading" ? "Готовим PDF…" : "Скачать красивый PDF"}
           </button>
           {onRestart && (
             <button className="button button-secondary" onClick={onRestart}>
