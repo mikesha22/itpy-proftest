@@ -9,6 +9,7 @@ import type { ResultPayload } from "@/lib/types";
 import styles from "./ResultView.module.css";
 
 const TRIAL_LESSON_URL = "https://planerka.app/ilandroxy";
+const TEST_HOME_URL = "https://itpy-proftest.vercel.app";
 
 function safeFilePart(value: string) {
   return value
@@ -88,7 +89,7 @@ export default function ResultView({
 
   function restartFromBeginning() {
     localStorage.removeItem("itpy-proftest-progress-v0.2");
-    window.location.replace("/");
+    window.location.replace(TEST_HOME_URL);
   }
 
   return (
