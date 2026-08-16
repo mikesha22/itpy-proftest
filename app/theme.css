@@ -353,13 +353,19 @@ select:focus {
 }
 
 .chip.selected,
-.scale-button:hover,
 .scale-button.selected,
-.task-option:hover:not(:disabled),
 .task-option.selected,
 .radio-card:has(input:checked) {
   background: var(--lime-soft);
   border-color: #a9ad82;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .scale-button:hover,
+  .task-option:hover:not(:disabled) {
+    background: var(--lime-soft);
+    border-color: #a9ad82;
+  }
 }
 
 .scale-button b,

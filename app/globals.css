@@ -186,7 +186,7 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 4px rg
   padding: 10px 15px;
   cursor: pointer;
 }
-.scale-button:hover, .scale-button.selected { border-color: var(--green); background: var(--lime-soft); }
+.scale-button.selected { border-color: var(--green); background: var(--lime-soft); }
 .scale-button span { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--cream); color: var(--green); font-weight: 900; }
 .scale-button b { font-size: 15px; }
 
@@ -209,7 +209,7 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 4px rg
   cursor: pointer;
   font-weight: 750;
 }
-.task-option:hover:not(:disabled), .task-option.selected { border-color: var(--green); background: var(--lime-soft); }
+.task-option.selected { border-color: var(--green); background: var(--lime-soft); }
 .task-option:disabled { cursor: default; }
 .task-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 26px; }
 .feedback { display: grid; gap: 7px; margin-top: 20px; border-radius: 18px; padding: 17px 19px; }
@@ -443,6 +443,10 @@ input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 4px rg
 .test-pass { background: var(--lime-soft); color: var(--green-dark); }
 .test-fail { background: var(--danger-bg); color: var(--danger); }
 .test-results span { font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (hover: hover) and (pointer: fine) {
+  .scale-button:hover { border-color: var(--green); background: var(--lime-soft); }
+  .task-option:hover:not(:disabled) { border-color: var(--green); background: var(--lime-soft); }
+}
 @media (max-width: 560px) {
   .graph-task { padding: 5px; }
   .python-editor-hint { display: none; }

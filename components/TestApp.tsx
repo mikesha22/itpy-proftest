@@ -69,6 +69,7 @@ export default function TestApp() {
   const [questionLocked, setQuestionLocked] = useState(false);
   const questionLockRef = useRef(false);
   const questionUnlockTimerRef = useRef<number | null>(null);
+  const surveyCardRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     try {
@@ -126,6 +127,19 @@ export default function TestApp() {
       }
     };
   }, [stage, surveyIndex, taskIndex]);
+
+  useEffect(() => {
+    if (stage !== "survey" || !window.matchMedia("(max-width: 560px)").matches) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const card = surveyCardRef.current;
+      if (!card) return;
+      const top = window.scrollY + card.getBoundingClientRect().top - 10;
+      window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [stage, surveyIndex]);
 
   const progress = useMemo(() => {
     if (stage === "profile") return 2;
@@ -408,7 +422,7 @@ export default function TestApp() {
       {stage === "survey" && (() => {
         const question = surveyQuestions[surveyIndex];
         return (
-          <section className="question-card">
+          <section className="question-card" key={question.id} ref={surveyCardRef}>
             <div className="question-navigation">
               <button className="text-button question-back" onClick={previousSurveyQuestion} disabled={questionLocked}>← Назад</button>
               <div className="question-meta"><span>Анкета</span><b>{surveyIndex + 1} / {surveyQuestions.length}</b></div>
