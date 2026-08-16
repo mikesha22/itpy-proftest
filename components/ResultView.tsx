@@ -187,9 +187,6 @@ export default function ResultView({
             <a className="button button-primary" href={TRIAL_LESSON_URL} target="_blank" rel="noopener noreferrer">
               Записаться на пробное занятие
             </a>
-            {payload.participant.interests.length > 0 && (
-              <p>Тебя особенно заинтересовали: {payload.participant.interests.join(", ")}.</p>
-            )}
           </article>
         </section>
       </div>
